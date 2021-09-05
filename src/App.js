@@ -8,13 +8,13 @@ import TokenPage from './pages/TokenPage'
 import PairPage from './pages/PairPage'
 import { useGlobalData, useGlobalChartData } from './contexts/GlobalData'
 import { isAddress } from './utils'
-import AccountPage from './pages/AccountPage'
+// import AccountPage from './pages/AccountPage'
 import AllTokensPage from './pages/AllTokensPage'
 import AllPairsPage from './pages/AllPairsPage'
 import PinnedData from './components/PinnedData'
 
 import SideNav from './components/SideNav'
-import AccountLookup from './pages/AccountLookup'
+// import AccountLookup from './pages/AccountLookup'
 import LocalLoader from './components/LocalLoader'
 import { useLatestBlocks } from './contexts/Application'
 import GoogleAnalyticsReporter from './components/analytics/GoogleAnalyticsReporter'
@@ -68,7 +68,7 @@ const WarningWrapper = styled.div`
 `
 
 const WarningBanner = styled.div`
-  background-color: #ff6871;
+  background-color: #FF6978;
   padding: 1.5rem;
   color: white;
   width: 100%;
@@ -93,7 +93,7 @@ const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
   )
 }
 
-const BLOCK_DIFFERENCE_THRESHOLD = 30
+const BLOCK_DIFFERENCE_THRESHOLD = 300
 
 function App() {
   const [savedOpen, setSavedOpen] = useState(false)
@@ -111,7 +111,7 @@ function App() {
         {showWarning && (
           <WarningWrapper>
             <WarningBanner>
-              {`Warning: The data on this site has only synced to Ethereum block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
+              {`Warning: The data on this site has only synced to Fantom block ${latestBlock} (out of ${headBlock}). Please check back soon.`}
             </WarningBanner>
           </WarningWrapper>
         )}
@@ -160,22 +160,6 @@ function App() {
                   }
                 }}
               />
-              <Route
-                exacts
-                strict
-                path="/account/:accountAddress"
-                render={({ match }) => {
-                  if (isAddress(match.params.accountAddress.toLowerCase())) {
-                    return (
-                      <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
-                        <AccountPage account={match.params.accountAddress.toLowerCase()} />
-                      </LayoutWrapper>
-                    )
-                  } else {
-                    return <Redirect to="/home" />
-                  }
-                }}
-              />
 
               <Route path="/home">
                 <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
@@ -195,12 +179,6 @@ function App() {
                 </LayoutWrapper>
               </Route>
 
-              <Route path="/accounts">
-                <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
-                  <AccountLookup />
-                </LayoutWrapper>
-              </Route>
-
               <Redirect to="/home" />
             </Switch>
           </BrowserRouter>
@@ -213,3 +191,26 @@ function App() {
 }
 
 export default App
+/*
+              <Route
+                exacts
+                strict
+                path="/account/:accountAddress"
+                render={({ match }) => {
+                  if (isAddress(match.params.accountAddress.toLowerCase())) {
+                    return (
+                      <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+                        <AccountPage account={match.params.accountAddress.toLowerCase()} />
+                      </LayoutWrapper>
+                    )
+                  } else {
+                    return <Redirect to="/home" />
+                  }
+                }}
+              />
+                            <Route path="/accounts">
+                <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
+                  <AccountLookup />
+                </LayoutWrapper>
+              </Route>
+              */

@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useReducer, useMemo, useCallback, useState, useEffect } from 'react'
-import { timeframeOptions, SUPPORTED_LIST_URLS__NO_ENS } from '../constants'
+import { timeframeOptions } from '../constants' // SUPPORTED_LIST_URLS__NO_ENS
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import getTokenList from '../utils/tokenLists'
+// import getTokenList from '../utils/tokenLists'
 import { healthClient } from '../apollo/client'
 import { SUBGRAPH_HEALTH } from '../apollo/queries'
+import defaultTokenJson from '../constants/token/soulswap.json'
 dayjs.extend(utc)
 
 const UPDATE = 'UPDATE'
@@ -201,10 +202,10 @@ export function useLatestBlocks() {
 export function useCurrentCurrency() {
   const [state, { update }] = useApplicationContext()
   const toggleCurrency = useCallback(() => {
-    if (state.currency === 'ETH') {
+    if (state.currency === 'FTM') {
       update('USD')
     } else {
-      update('ETH')
+      update('FTM')
     }
   }, [state, update])
   return [state[CURRENCY], toggleCurrency]
@@ -262,18 +263,19 @@ export function useSessionStart() {
 
   return parseInt(seconds / 1000)
 }
-
+/*
+await SUPPORTED_LIST_URLS__NO_ENS.reduce(async (fetchedTokens, url) => {
+        const tokensSoFar = await fetchedTokens
+        const newTokens = await getTokenList(url)
+        return Promise.resolve([...tokensSoFar, ...newTokens.tokens])
+      }, Promise.resolve([])) */
 export function useListedTokens() {
   const [state, { updateSupportedTokens }] = useApplicationContext()
   const supportedTokens = state?.[SUPPORTED_TOKENS]
 
   useEffect(() => {
     async function fetchList() {
-      const allFetched = await SUPPORTED_LIST_URLS__NO_ENS.reduce(async (fetchedTokens, url) => {
-        const tokensSoFar = await fetchedTokens
-        const newTokens = await getTokenList(url)
-        return Promise.resolve([...tokensSoFar, ...newTokens.tokens])
-      }, Promise.resolve([]))
+      const allFetched = defaultTokenJson.tokens
       let formatted = allFetched?.map((t) => t.address.toLowerCase())
       updateSupportedTokens(formatted)
     }

@@ -1,4 +1,4 @@
-# Uniswap Info (V1 + V2)
+# SoulSwap Info (V1 + V2)
 
 [![Lint](https://github.com/Uniswap/uniswap-info/workflows/Lint/badge.svg)](https://github.com/Uniswap/uniswap-info/actions?query=workflow%3ALint)
 [![Deploy](https://github.com/Uniswap/uniswap-info/workflows/Deploy/badge.svg)](https://github.com/Uniswap/uniswap-info/actions?query=workflow%3ADeploy)
@@ -11,11 +11,13 @@ Includes support for Uniswap V1 and V2. For Uniswap V3 info see https://github.c
 ### To Start Development
 
 ###### Installing dependencies
+
 ```bash
 yarn
 ```
 
 ###### Running locally
+
 ```bash
 yarn start
 ```

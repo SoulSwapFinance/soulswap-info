@@ -36,41 +36,53 @@ export function getTimeframe(timeWindow) {
   }
   return utcStartTime
 }
-
+/*
++
+      (remove ? `remove` : `add`) +
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${'ETH'}`
+       +
+      (remove ? `remove` : `add`) +
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address
+      }`
+      */
 export function getPoolLink(token0Address, token1Address = null, remove = false) {
   if (!token1Address) {
     return (
-      `https://app.uniswap.org/#/` +
+      `https://SoulSwap.finance/`+
       (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address}/${'ETH'}`
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
     )
+
   } else {
     return (
-      `https://app.uniswap.org/#/` +
+      `https://SoulSwap.finance/`+
       (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address}/${
-        token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token1Address
-      }`
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/`+
+      `${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
     )
   }
 }
 
 export function getSwapLink(token0Address, token1Address = null) {
   if (!token1Address) {
-    return `https://app.uniswap.org/#/swap?inputCurrency=${token0Address}`
+    return `https://SoulSwap.finance/swap?inputCurrency=${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}`
   } else {
-    return `https://app.uniswap.org/#/swap?inputCurrency=${
-      token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token0Address
-    }&outputCurrency=${token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'ETH' : token1Address}`
+    return `https://SoulSwap.finance/swap?inputCurrency=${
+      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
+      }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
   }
 }
+/*
+?inputCurrency=${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address
+      }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address}`
+      */
 
 export function getMiningPoolLink(token0Address) {
-  return `https://app.uniswap.org/#/uni/ETH/${token0Address}`
+  return `https://SoulSwap.finance`
 }
 
 export function getUniswapAppLink(linkVariable) {
-  let baseUniswapUrl = 'https://app.uniswap.org/#/uni'
+  let baseUniswapUrl = 'https://SoulSwap.finance'
   if (!linkVariable) {
     return baseUniswapUrl
   }
@@ -303,10 +315,10 @@ export const setThemeColor = (theme) => document.documentElement.style.setProper
 export const Big = (number) => new BigNumber(number)
 
 export const urls = {
-  showTransaction: (tx) => `https://etherscan.io/tx/${tx}/`,
-  showAddress: (address) => `https://www.etherscan.io/address/${address}/`,
-  showToken: (address) => `https://www.etherscan.io/token/${address}/`,
-  showBlock: (block) => `https://etherscan.io/block/${block}/`,
+  showTransaction: (tx) => `https://ftmscan.com/tx/${tx}/`,
+  showAddress: (address) => `https://www.ftmscan.com/address/${address}/`,
+  showToken: (address) => `https://www.ftmscan.com/token/${address}/`,
+  showBlock: (block) => `https://ftmscan.com/block/${block}/`,
 }
 
 export const formatTime = (unix) => {
@@ -383,7 +395,7 @@ export const formattedNum = (number, usd = false, acceptNegatives = false) => {
     }
   }
 
-  return Number(parseFloat(num).toFixed(4)).toString()
+  return Number(parseFloat(num).toFixed(5)).toLocaleString()
 }
 
 export function rawPercent(percentRaw) {
