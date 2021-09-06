@@ -413,8 +413,8 @@ function TokenPage({ address, history }) {
                     </AutoRow>
                   </Column>
                   <ButtonLight color={backgroundColor}>
-                    <Link color={backgroundColor} external href={'https://etherscan.io/address/' + address}>
-                      View on FantomScan ↗
+                    <Link color={backgroundColor} external href={'https://ftmscan.com/address/' + address}>
+                      View on FtmScan ↗
                     </Link>
                   </ButtonLight>
                 </TokenDetailsLayout>
