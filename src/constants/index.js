@@ -47,4 +47,4 @@ export const FEE_WARNING_TOKENS = []
 export const UNTRACKED_COPY = 'Derived USD values may be inaccurate without liquid stablecoin or FTM pairings.'
 
 // tokens that should be tracked but arent due to lag in subgraph
-export const TRACKED_OVERRIDES = ['0xf6c7197eaff13002a7b2a2e835a7bb6969a4b026']
+export const TRACKED_OVERRIDES = ['']
