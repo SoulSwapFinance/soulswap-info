@@ -7,7 +7,7 @@ import Panel from '../components/Panel'
 import { useAllPairData } from '../contexts/PairData'
 import PairList from '../components/PairList'
 import { PageWrapper, FullWrapper } from '../components'
-import { RowBetween, AutoRow } from '../components/Row'
+import { RowBetween } from '../components/Row'
 import Search from '../components/Search'
 import { useMedia } from 'react-use'
 
