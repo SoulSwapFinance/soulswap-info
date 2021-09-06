@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import theme from '../Theme/theme'
 const color = theme.colors
 

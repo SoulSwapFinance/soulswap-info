@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Box } from 'rebass'
 import styled from 'styled-components'
@@ -61,9 +61,6 @@ function GlobalPage() {
       top: 0,
     })
   }, [])
-
-  // for tracked data on pairs
-  const [useTracked, setUseTracked] = useState(true)
 
   return (
     <PageWrapper>

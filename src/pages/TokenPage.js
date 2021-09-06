@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable react/prop-types */
+import React from 'react'
 import 'feather-icons'
 import { withRouter } from 'react-router-dom'
 import { Text } from 'rebass'
@@ -167,8 +168,6 @@ function TokenPage({ address, history }) {
       top: 0,
     })
   }, [])
-
-  const [useTracked, setUseTracked] = useState(true)
 
   if (TOKEN_BLACKLIST.includes(address)) {
     return (
@@ -357,8 +356,7 @@ function TokenPage({ address, history }) {
 
             <RowBetween style={{ marginTop: '3rem' }}>
               <TYPE.main fontSize={'1.125rem'}>Top Pairs</TYPE.main>
-            <AutoRow gap="4px" style={{ width: 'fit-content' }}>
-              </AutoRow>
+              <AutoRow gap="4px" style={{ width: 'fit-content' }}></AutoRow>
             </RowBetween>
             <Panel
               rounded
@@ -368,7 +366,7 @@ function TokenPage({ address, history }) {
               }}
             >
               {address && fetchedPairsList ? (
-                <PairList color={backgroundColor} address={address} pairs={fetchedPairsList} useTracked={useTracked} />
+                <PairList color={backgroundColor} address={address} pairs={fetchedPairsList} />
               ) : (
                 <Loader />
               )}

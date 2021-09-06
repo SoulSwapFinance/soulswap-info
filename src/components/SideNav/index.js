@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
@@ -164,7 +165,7 @@ function SideNav({ history }) {
           </AutoColumn>
           <AutoColumn gap="0.5rem" style={{ marginLeft: '.75rem', marginBottom: '4rem' }}>
             <HeaderText>
-              <Link href="https://app.soulswap.finance" target="_blank">
+              <Link href="https://soulswap.finance" target="_blank">
                 SoulSwap.finance
               </Link>
             </HeaderText>
@@ -181,6 +182,9 @@ function SideNav({ history }) {
             <HeaderText>
               <Link href="https://twitter.com/SoulSwapFinance" target="_blank">
                 Twitter
+              </Link>
+              <Link href="https://t.me/SoulSwapDeFi" target="_blank">
+                Telegram
               </Link>
             </HeaderText>
             <Toggle isActive={isDark} toggle={toggleDarkMode} />
