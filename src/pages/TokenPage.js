@@ -32,8 +32,7 @@ import FormattedName from '../components/FormattedName'
 import { useListedTokens } from '../contexts/Application'
 import HoverText from '../components/HoverText'
 import { UNTRACKED_COPY, TOKEN_BLACKLIST, BLOCKED_WARNINGS } from '../constants'
-import QuestionHelper from '../components/QuestionHelper'
-import Checkbox from '../components/Checkbox'
+
 import { shortenAddress } from '../utils'
 
 const DashboardWrapper = styled.div`
@@ -359,12 +358,6 @@ function TokenPage({ address, history }) {
             <RowBetween style={{ marginTop: '3rem' }}>
               <TYPE.main fontSize={'1.125rem'}>Top Pairs</TYPE.main>
             <AutoRow gap="4px" style={{ width: 'fit-content' }}>
-              {/* <Checkbox
-                  checked={useTracked}
-                  setChecked={() => setUseTracked(!useTracked)}
-                  text={'Hide untracked pairs'}
-                />
-                <QuestionHelper text="USD amounts may be inaccurate in low liquiidty pairs or pairs without ETH or stablecoins." /> /*}
               </AutoRow>
             </RowBetween>
             <Panel
