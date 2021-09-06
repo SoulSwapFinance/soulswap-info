@@ -104,7 +104,7 @@ const DataText = styled(Flex)`
 
 const SORT_FIELD = {
   VALUE: 'VALUE',
-  UNISWAP_RETURN: 'UNISWAP_RETURN',
+  SOULWAP_RETURN: 'SOULWAP_RETURN',
 }
 
 function PositionList({ positions }) {
@@ -263,7 +263,7 @@ function PositionList({ positions }) {
         if (sortedColumn === SORT_FIELD.HODL) {
           return p0?.hodl?.sum > p1?.hodl?.sum ? (sortDirection ? -1 : 1) : sortDirection ? 1 : -1
         }
-        if (sortedColumn === SORT_FIELD.UNISWAP_RETURN) {
+        if (sortedColumn === SORT_FIELD.SOULWAP_RETURN) {
           return p0?.uniswap?.return > p1?.uniswap?.return ? (sortDirection ? -1 : 1) : sortDirection ? 1 : -1
         }
         if (sortedColumn === SORT_FIELD.VALUE) {
@@ -310,12 +310,12 @@ function PositionList({ positions }) {
             <ClickableText
               area="return"
               onClick={() => {
-                setSortedColumn(SORT_FIELD.UNISWAP_RETURN)
-                setSortDirection(sortedColumn !== SORT_FIELD.UNISWAP_RETURN ? true : !sortDirection)
+                setSortedColumn(SORT_FIELD.SOULWAP_RETURN)
+                setSortDirection(sortedColumn !== SORT_FIELD.SOULWAP_RETURN ? true : !sortDirection)
               }}
             >
               {below740 ? 'Fees' : 'Total Fees Earned'}{' '}
-              {sortedColumn === SORT_FIELD.UNISWAP_RETURN ? (!sortDirection ? '↑' : '↓') : ''}
+              {sortedColumn === SORT_FIELD.SOULWAP_RETURN ? (!sortDirection ? '↑' : '↓') : ''}
             </ClickableText>
           </Flex>
         )}

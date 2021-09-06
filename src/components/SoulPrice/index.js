@@ -23,40 +23,40 @@ function formatPercent(rawPercent) {
   } else return parseFloat(rawPercent * 100).toFixed(0) + '%'
 }
 
-export default function UniPrice() {
-  const daiPair = usePairData('0xa478c2975ab1ea89e8196811f51a7b7ade33eb11')
-  const usdcPair = usePairData('0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc')
-  const usdtPair = usePairData('0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852')
+export default function SoulPrice() {
+  const daiPair = usePairData('0xF3d6E8Ecece8647B456d57375Ce0B51B8F0cD40b')
+  const usdcPair = usePairData('0x160653F02b6597E7Db00BA8cA826cf43D2f39556')
+  const fusdPair = usePairData('0x1AE16105a7d4bE7DFD9737FD13D9A50AEFed1437')
 
   const totalLiquidity = useMemo(() => {
-    return daiPair && usdcPair && usdtPair
-      ? daiPair.trackedReserveUSD + usdcPair.trackedReserveUSD + usdtPair.trackedReserveUSD
+    return daiPair && usdcPair && fusdPair
+      ? daiPair.trackedReserveUSD + usdcPair.trackedReserveUSD + fusdPair.trackedReserveUSD
       : 0
-  }, [daiPair, usdcPair, usdtPair])
+  }, [daiPair, usdcPair, fusdPair])
 
-  const daiPerEth = daiPair ? parseFloat(daiPair.token0Price).toFixed(2) : '-'
-  const usdcPerEth = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-'
-  const usdtPerEth = usdtPair ? parseFloat(usdtPair.token1Price).toFixed(2) : '-'
+  const daiPerFtm = daiPair ? parseFloat(daiPair.token0Price).toFixed(2) : '-'
+  const usdcPerFtm = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-'
+  const fusdPerFtm = fusdPair ? parseFloat(fusdPair.token1Price).toFixed(2) : '-'
 
   return (
     <PriceCard>
       <AutoColumn gap="10px">
         <RowFixed>
-          <TYPE.main>DAI/ETH: {formattedNum(daiPerEth, true)}</TYPE.main>
+          <TYPE.main>DAI/FTM: {formattedNum(daiPerFtm, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
             {daiPair && totalLiquidity ? formatPercent(daiPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>
         </RowFixed>
         <RowFixed>
-          <TYPE.main>USDC/ETH: {formattedNum(usdcPerEth, true)}</TYPE.main>
+          <TYPE.main>USDC/FTM: {formattedNum(usdcPerFtm, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
             {usdcPair && totalLiquidity ? formatPercent(usdcPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>
         </RowFixed>
         <RowFixed>
-          <TYPE.main>USDT/ETH: {formattedNum(usdtPerEth, true)}</TYPE.main>
+          <TYPE.main>FUSD/FTM: {formattedNum(fusdPerFtm, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
-            {usdtPair && totalLiquidity ? formatPercent(usdtPair.trackedReserveUSD / totalLiquidity) : '-'}
+            {fusdPair && totalLiquidity ? formatPercent(fusdPair.trackedReserveUSD / totalLiquidity) : '-'}
           </TYPE.light>
         </RowFixed>
       </AutoColumn>

@@ -19,6 +19,14 @@ const TOKEN_OVERRIDES: { [address: string]: { name: string; symbol: string } } =
     name: 'Fantom (Wrapped)',
     symbol: 'FTM',
   },
+  '0x74b23882a30290451A17c44f4F05243b6b58C76d': {
+    name: 'Ether (Wrapped)',
+    symbol: 'ETH',
+  },
+  '0xe2fb177009FF39F52C0134E8007FA0e4BaAcBd07': {
+    name: 'Soul Power',
+    symbol: 'SOUL',
+  },
 }
 
 // override tokens with incorrect symbol or names

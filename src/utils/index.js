@@ -36,53 +36,41 @@ export function getTimeframe(timeWindow) {
   }
   return utcStartTime
 }
-/*
-+
-      (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${'ETH'}`
-       +
-      (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address
-      }`
-      */
+
 export function getPoolLink(token0Address, token1Address = null, remove = false) {
   if (!token1Address) {
     return (
-      `https://SoulSwap.finance/`+
+      `https://app.soulswap.finance/#/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
+      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address}/${'ETH'}`
     )
-
   } else {
     return (
-      `https://SoulSwap.finance/`+
+      `https://app.soulswap.finance/#/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/`+
-      `${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
+      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address}/${
+        token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token1Address
+      }`
     )
   }
 }
 
 export function getSwapLink(token0Address, token1Address = null) {
   if (!token1Address) {
-    return `https://SoulSwap.finance/swap?inputCurrency=${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}`
+    return `https://app.soulswap.finance/#/swap?inputCurrency=${token0Address}`
   } else {
-    return `https://SoulSwap.finance/swap?inputCurrency=${
-      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
-      }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
+    return `https://app.soulswap.finance/#/swap?inputCurrency=${
+      token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address
+    }&outputCurrency=${token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token1Address}`
   }
 }
-/*
-?inputCurrency=${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address
-      }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address}`
-      */
 
 export function getMiningPoolLink(token0Address) {
-  return `https://SoulSwap.finance`
+  return `https://app.soulswap.finance/#/uni/FTM/${token0Address}`
 }
 
 export function getUniswapAppLink(linkVariable) {
-  let baseUniswapUrl = 'https://SoulSwap.finance'
+  let baseUniswapUrl = 'https://app.soulswap.finance/#/'
   if (!linkVariable) {
     return baseUniswapUrl
   }
@@ -395,7 +383,7 @@ export const formattedNum = (number, usd = false, acceptNegatives = false) => {
     }
   }
 
-  return Number(parseFloat(num).toFixed(5)).toLocaleString()
+  return Number(parseFloat(num).toFixed(4)).toString()
 }
 
 export function rawPercent(percentRaw) {

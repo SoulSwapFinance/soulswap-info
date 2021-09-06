@@ -103,7 +103,7 @@ const DataText = styled(Flex)`
 
 const SORT_FIELD = {
   VALUE: 'VALUE',
-  UNISWAP_RETURN: 'UNISWAP_RETURN',
+  SOULWAP_RETURN: 'SOULWAP_RETURN',
 }
 
 function MiningPositionList({ miningPositions }) {
