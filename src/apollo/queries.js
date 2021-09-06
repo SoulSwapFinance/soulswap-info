@@ -417,7 +417,7 @@ export const GLOBAL_DATA = (block) => {
         totalLiquidityUSD
         totalLiquidityETH
         txCount
-        pairCount
+        totalPairs
       }
     }`
   return gql(queryString)
