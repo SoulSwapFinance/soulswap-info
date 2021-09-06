@@ -12,18 +12,18 @@ interface BasicData {
 }
 
 // Override data return from graph - usually because proxy token has changed
-// names since entitiy was created in subgraph
+// names since entity was created in subgraph
 // keys are lowercase token addresses <--------
 const TOKEN_OVERRIDES: { [address: string]: { name: string; symbol: string } } = {
   '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83': {
     name: 'Fantom (Wrapped)',
     symbol: 'FTM',
   },
-  '0x74b23882a30290451A17c44f4F05243b6b58C76d': {
+  '0x74b23882a30290451a17c44f4f05243b6b58c76d': {
     name: 'Ether (Wrapped)',
     symbol: 'ETH',
   },
-  '0xe2fb177009FF39F52C0134E8007FA0e4BaAcBd07': {
+  '0xe2fb177009ff39f52c0134e8007fa0e4baacbd07': {
     name: 'Soul Power',
     symbol: 'SOUL',
   },

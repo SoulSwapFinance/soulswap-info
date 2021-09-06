@@ -4,14 +4,14 @@ import dayjs from 'dayjs'
 import { getShareValueOverTime } from '.'
 
 export const priceOverrides = [
-  '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
-  '0x6b175474e89094c44da98b954eedeac495271d0f', // DAI
+'0x04068da6c83afcfa0e13ba15a6696662335d5b75', // USDC
+  '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e', // DAI
 ]
 
 interface ReturnMetrics {
   hodleReturn: number // difference in asset values t0 -> t1 with t0 deposit amounts
   netReturn: number // net return from t0 -> t1
-  uniswapReturn: number // netReturn - hodlReturn
+  soulswapReturn: number // netReturn - hodlReturn
   impLoss: number
   fees: number
 }
@@ -39,10 +39,10 @@ function formatPricesForEarlyTimestamps(position): Position {
       position.token1PriceUSD = 1
     }
     // WETH price
-    if (position.pair?.token0.id === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2') {
+    if (position.pair?.token0.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
       position.token0PriceUSD = 203
     }
-    if (position.pair?.token1.id === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2') {
+    if (position.pair?.token1.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
       position.token1PriceUSD = 203
     }
   }
@@ -141,7 +141,7 @@ export function getMetricsForPositionWindow(positionT0: Position, positionT1: Po
   const assetValueT1 = token0_amount_t0 * positionT1.token0PriceUSD + token1_amount_t0 * positionT1.token1PriceUSD
 
   const imp_loss_usd = no_fees_usd - assetValueT1
-  const uniswap_return = difference_fees_usd + imp_loss_usd
+  const soulswap_return = difference_fees_usd + imp_loss_usd
 
   // get net value change for combined data
   const netValueT0 = t0Ownership * positionT0.reserveUSD
@@ -150,7 +150,7 @@ export function getMetricsForPositionWindow(positionT0: Position, positionT1: Po
   return {
     hodleReturn: assetValueT1 - assetValueT0,
     netReturn: netValueT1 - netValueT0,
-    uniswapReturn: uniswap_return,
+    soulswapReturn: soulswap_return,
     impLoss: imp_loss_usd,
     fees: difference_fees_usd,
   }
@@ -260,7 +260,7 @@ export async function getLPReturnsOnPair(user: string, pair, ethPrice: number, s
   const principal = await getPrincipalForUserPerPair(user, pair.id)
   let hodlReturn = 0
   let netReturn = 0
-  let uniswapReturn = 0
+  let soulswapReturn = 0
   let fees = 0
 
   snapshots = snapshots.filter((entry) => {
@@ -287,7 +287,7 @@ export async function getLPReturnsOnPair(user: string, pair, ethPrice: number, s
     const results = getMetricsForPositionWindow(positionT0, positionT1)
     hodlReturn = hodlReturn + results.hodleReturn
     netReturn = netReturn + results.netReturn
-    uniswapReturn = uniswapReturn + results.uniswapReturn
+    soulswapReturn = soulswapReturn + results.soulswapReturn
     fees = fees + results.fees
   }
 
@@ -296,8 +296,8 @@ export async function getLPReturnsOnPair(user: string, pair, ethPrice: number, s
     net: {
       return: netReturn,
     },
-    uniswap: {
-      return: uniswapReturn,
+    soulswap: {
+      return: soulswapReturn,
     },
     fees: {
       sum: fees,

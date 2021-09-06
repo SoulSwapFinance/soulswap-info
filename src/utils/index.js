@@ -40,16 +40,16 @@ export function getTimeframe(timeWindow) {
 export function getPoolLink(token0Address, token1Address = null, remove = false) {
   if (!token1Address) {
     return (
-      `https://app.soulswap.finance/#/` +
+      `https://exchange.soulswap.finance/#/` +
       (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address}/${'ETH'}`
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
     )
   } else {
     return (
       `https://app.soulswap.finance/#/` +
       (remove ? `remove` : `add`) +
-      `/v2/${token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address}/${
-        token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token1Address
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${
+        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address
       }`
     )
   }
@@ -60,22 +60,22 @@ export function getSwapLink(token0Address, token1Address = null) {
     return `https://app.soulswap.finance/#/swap?inputCurrency=${token0Address}`
   } else {
     return `https://app.soulswap.finance/#/swap?inputCurrency=${
-      token0Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token0Address
-    }&outputCurrency=${token1Address === '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' ? 'FTM' : token1Address}`
+      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
+    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
   }
 }
 
 export function getMiningPoolLink(token0Address) {
-  return `https://app.soulswap.finance/#/uni/FTM/${token0Address}`
+  return `https://app.soulswap.finance/#/soul/FTM/${token0Address}`
 }
 
-export function getUniswapAppLink(linkVariable) {
-  let baseUniswapUrl = 'https://app.soulswap.finance/#/'
+export function getSoulSwapAppLink(linkVariable) {
+  let baseSoulSwapUrl = 'https://app.soulswap.finance/#/'
   if (!linkVariable) {
-    return baseUniswapUrl
+    return baseSoulSwapUrl
   }
 
-  return `${baseUniswapUrl}/ETH/${linkVariable}`
+  return `${baseSoulSwapUrl}/FTM/${linkVariable}`
 }
 
 export function localNumber(val) {
