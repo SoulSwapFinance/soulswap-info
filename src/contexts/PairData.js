@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { createContext, useContext, useReducer, useMemo, useCallback, useEffect, useState } from 'react'
 
 import { client } from '../apollo/client'
@@ -11,7 +13,7 @@ import {
   HOURLY_PAIR_RATES,
 } from '../apollo/queries'
 
-import { useEthPrice } from './GlobalData'
+import { useFtmPrice } from './GlobalData'
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -474,7 +476,7 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
 
 export function Updater() {
   const [, { updateTopPairs }] = usePairDataContext()
-  const [ethPrice] = useEthPrice()
+  const [ethPrice] = useFtmPrice()
   useEffect(() => {
     async function getData() {
       // get top pairs by reserves
@@ -528,7 +530,7 @@ export function useHourlyRateData(pairAddress, timeWindow) {
  */
 export function useDataForList(pairList) {
   const [state] = usePairDataContext()
-  const [ethPrice] = useEthPrice()
+  const [ethPrice] = useFtmPrice()
 
   const [stale, setStale] = useState(false)
   const [fetched, setFetched] = useState([])
@@ -579,11 +581,11 @@ export function useDataForList(pairList) {
 }
 
 /**
- * Get all the current and 24hr changes for a pair
+ * Get all the current and 24H changes for a pair
  */
 export function usePairData(pairAddress) {
   const [state, { update }] = usePairDataContext()
-  const [ethPrice] = useEthPrice()
+  const [ethPrice] = useFtmPrice()
   const pairData = state?.[pairAddress]
 
   useEffect(() => {

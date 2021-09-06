@@ -177,7 +177,7 @@ function TokenPage({ address, history }) {
             <TYPE.light style={{ textAlign: 'center' }}>
               {BLOCKED_WARNINGS[address] ?? `This token is not supported.`}
             </TYPE.light>
-            <Link external={true} href={'https://ftmscan.com/address/' + address}>{`More about ${shortenAddress(
+            <Link external={true} href={'https://ftmscan.com/address/' + address}>{`More About ${shortenAddress(
               address
             )}`}</Link>
           </AutoColumn>
@@ -317,7 +317,7 @@ function TokenPage({ address, history }) {
                 <Panel>
                   <AutoColumn gap="20px">
                     <RowBetween>
-                      <TYPE.main>Volume (24hrs)</TYPE.main>
+                      <TYPE.main>Volume (24H)</TYPE.main>
                       <div />
                     </RowBetween>
                     <RowBetween align="flex-end">
@@ -332,7 +332,7 @@ function TokenPage({ address, history }) {
                 <Panel>
                   <AutoColumn gap="20px">
                     <RowBetween>
-                      <TYPE.main>Transactions (24hrs)</TYPE.main>
+                      <TYPE.main>Transactions (24H)</TYPE.main>
                       <div />
                     </RowBetween>
                     <RowBetween align="flex-end">
@@ -412,7 +412,7 @@ function TokenPage({ address, history }) {
                   </Column>
                   <ButtonLight color={backgroundColor}>
                     <Link color={backgroundColor} external href={'https://ftmscan.com/address/' + address}>
-                      View on FtmScan ↗
+                      View on Explorer ↗
                     </Link>
                   </ButtonLight>
                 </TokenDetailsLayout>

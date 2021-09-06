@@ -162,8 +162,8 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
             />
             <Area
               type="monotone"
-              name={'Eth Balance'}
-              dataKey={'ethBalance'}
+              name={'Ftm Balance'}
+              dataKey={'ftmBalance'}
               fill="var(--c-token)"
               opacity={'0'}
               stroke="var(--c-token)"

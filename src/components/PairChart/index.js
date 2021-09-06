@@ -31,14 +31,24 @@ const OptionsRow = styled.div`
   margin-bottom: 40px;
 `
 
-const CHART_VIEW = {
-  VOLUME: 'Volume',
-  LIQUIDITY: 'Liquidity',
-  RATE0: 'Rate 0',
-  RATE1: 'Rate 1',
-}
+
 
 const PairChart = ({ address, color, base0, base1 }) => {
+ 
+  const pairData = usePairData(address)
+
+  // formatted symbols for overflow
+  const formattedSymbol0 =
+    pairData?.token0?.symbol.length > 6 ? pairData?.token0?.symbol.slice(0, 5) + '...' : pairData?.token0?.symbol
+  const formattedSymbol1 =
+    pairData?.token1?.symbol.length > 6 ? pairData?.token1?.symbol.slice(0, 5) + '...' : pairData?.token1?.symbol
+
+  const CHART_VIEW = {
+    VOLUME: 'Volume',
+    LIQUIDITY: 'Liquidity',
+    RATE0: formattedSymbol1,
+    RATE1: formattedSymbol0,
+  }
   const [chartFilter, setChartFilter] = useState(CHART_VIEW.LIQUIDITY)
 
   const [timeWindow, setTimeWindow] = useState(timeframeOptions.MONTH)
@@ -64,17 +74,10 @@ const PairChart = ({ address, color, base0, base1 }) => {
   }, [height, isClient, width]) // Empty array ensures that effect is only run on mount and unmount
 
   // get data for pair, and rates
-  const pairData = usePairData(address)
   let chartData = usePairChartData(address)
   const hourlyData = useHourlyRateData(address, timeWindow)
   const hourlyRate0 = hourlyData && hourlyData[0]
   const hourlyRate1 = hourlyData && hourlyData[1]
-
-  // formatted symbols for overflow
-  const formattedSymbol0 =
-    pairData?.token0?.symbol.length > 6 ? pairData?.token0?.symbol.slice(0, 5) + '...' : pairData?.token0?.symbol
-  const formattedSymbol1 =
-    pairData?.token1?.symbol.length > 6 ? pairData?.token1?.symbol.slice(0, 5) + '...' : pairData?.token1?.symbol
 
   const below1600 = useMedia('(max-width: 1600px)')
   const below1080 = useMedia('(max-width: 1080px)')
@@ -86,7 +89,7 @@ const PairChart = ({ address, color, base0, base1 }) => {
   if (chartData && chartData.length === 0) {
     return (
       <ChartWrapper>
-        <EmptyCard height="300px">No historical data yet.</EmptyCard>{' '}
+        <EmptyCard height="300px">No Historical Data.</EmptyCard>{' '}
       </ChartWrapper>
     )
   }

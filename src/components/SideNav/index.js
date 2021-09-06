@@ -8,7 +8,7 @@ import { useMedia } from 'react-use'
 import { transparentize } from 'polished'
 import { TYPE } from '../../Theme'
 import { withRouter } from 'react-router-dom'
-import { TrendingUp, List, PieChart, Disc } from 'react-feather'
+import { TrendingUp, List, PieChart } from 'react-feather' // Disc
 import Link from '../Link'
 import { useSessionStart } from '../../contexts/Application'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
@@ -123,7 +123,7 @@ function SideNav({ history }) {
                     Overview
                   </Option>
                 </BasicLink>
-                <BasicLink to="/tokens">
+                {/* <BasicLink to="/tokens">
                   <Option
                     activeText={
                       (history.location.pathname.split('/')[1] === 'tokens' ||
@@ -134,7 +134,7 @@ function SideNav({ history }) {
                     <Disc size={20} style={{ marginRight: '.75rem' }} />
                     Tokens
                   </Option>
-                </BasicLink>
+                </BasicLink> */}
                 <BasicLink to="/pairs">
                   <Option
                     activeText={

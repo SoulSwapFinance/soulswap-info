@@ -59,7 +59,7 @@ export default function Title() {
             <BasicLink to="/home">
               <Option activeText={history.location.pathname === '/home' ?? undefined}>Overview</Option>
             </BasicLink>
-            <BasicLink to="/tokens">
+            {/* <BasicLink to="/tokens">
               <Option
                 activeText={
                   (history.location.pathname.split('/')[1] === 'tokens' ||
@@ -69,7 +69,7 @@ export default function Title() {
               >
                 Tokens
               </Option>
-            </BasicLink>
+            </BasicLink> */}
             <BasicLink to="/pairs">
               <Option
                 activeText={
@@ -82,7 +82,7 @@ export default function Title() {
               </Option>
             </BasicLink>
 
-            <BasicLink to="/accounts">
+            {/* <BasicLink to="/accounts">
               <Option
                 activeText={
                   (history.location.pathname.split('/')[1] === 'accounts' ||
@@ -92,7 +92,7 @@ export default function Title() {
               >
                 Accounts
               </Option>
-            </BasicLink>
+            </BasicLink> */}
           </RowFixed>
         )}
       </Flex>

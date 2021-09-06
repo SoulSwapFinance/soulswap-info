@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react'
 import { BigNumber } from 'bignumber.js'
 import dayjs from 'dayjs'
@@ -40,13 +42,13 @@ export function getTimeframe(timeWindow) {
 export function getPoolLink(token0Address, token1Address = null, remove = false) {
   if (!token1Address) {
     return (
-      `https://exchange.soulswap.finance/#/` +
+      `https://exchange.soulswap.finance/` +
       (remove ? `remove` : `add`) +
       `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
     )
   } else {
     return (
-      `https://app.soulswap.finance/#/` +
+      `https://app.soulswap.finance/` +
       (remove ? `remove` : `add`) +
       `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${
         token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address
@@ -57,20 +59,20 @@ export function getPoolLink(token0Address, token1Address = null, remove = false)
 
 export function getSwapLink(token0Address, token1Address = null) {
   if (!token1Address) {
-    return `https://app.soulswap.finance/#/swap?inputCurrency=${token0Address}`
+    return `https://app.soulswap.finance/swap?inputCurrency=${token0Address}`
   } else {
-    return `https://app.soulswap.finance/#/swap?inputCurrency=${
+    return `https://app.soulswap.finance/swap?inputCurrency=${
       token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
     }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
   }
 }
 
 export function getMiningPoolLink(token0Address) {
-  return `https://app.soulswap.finance/#/soul/FTM/${token0Address}`
+  return `https://app.soulswap.finance/farms/FTM/${token0Address}`
 }
 
 export function getSoulSwapAppLink(linkVariable) {
-  let baseSoulSwapUrl = 'https://app.soulswap.finance/#/'
+  let baseSoulSwapUrl = 'https://app.soulswap.finance/'
   if (!linkVariable) {
     return baseSoulSwapUrl
   }

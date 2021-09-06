@@ -11,7 +11,7 @@ import PairPage from './pages/PairPage'
 import { useGlobalData, useGlobalChartData } from './contexts/GlobalData'
 import { isAddress } from './utils'
 import AccountPage from './pages/AccountPage'
-import AllTokensPage from './pages/AllTokensPage'
+// import AllTokensPage from './pages/AllTokensPage'
 import AllPairsPage from './pages/AllPairsPage'
 import PinnedData from './components/PinnedData'
 
@@ -185,11 +185,11 @@ function App() {
                 </LayoutWrapper>
               </Route>
 
-              <Route path="/tokens">
+              {/* <Route path="/tokens">
                 <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>
                   <AllTokensPage />
                 </LayoutWrapper>
-              </Route>
+              </Route> */}
 
               <Route path="/pairs">
                 <LayoutWrapper savedOpen={savedOpen} setSavedOpen={setSavedOpen}>

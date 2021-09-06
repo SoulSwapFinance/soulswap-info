@@ -143,7 +143,7 @@ export default function Provider({ children }) {
     })
   }, [])
 
-  const updateEthPrice = useCallback((ethPrice, oneDayPrice, ethPriceChange) => {
+  const updateFtmPrice = useCallback((ethPrice, oneDayPrice, ethPriceChange) => {
     dispatch({
       type: UPDATE_ETH_PRICE,
       payload: {
@@ -189,7 +189,7 @@ export default function Provider({ children }) {
             update,
             updateTransactions,
             updateChart,
-            updateEthPrice,
+            updateFtmPrice,
             updateTopLps,
             updateAllPairsInSoulSwap,
             updateAllTokensInSoulSwap,
@@ -201,7 +201,7 @@ export default function Provider({ children }) {
           updateTransactions,
           updateTopLps,
           updateChart,
-          updateEthPrice,
+          updateFtmPrice,
           updateAllPairsInSoulSwap,
           updateAllTokensInSoulSwap,
         ]
@@ -217,10 +217,10 @@ export default function Provider({ children }) {
  * Needs current eth price and the old eth price to get
  * 24 hour USD changes.
  * @param {*} ethPrice
- * @param {*} oldEthPrice
+ * @param {*} oldFtmPrice
  */
 
-async function getGlobalData(ethPrice, oldEthPrice) {
+async function getGlobalData(ethPrice, oldFtmPrice) {
   // data for each day , historic data used for % changes
   let data = {}
   let oneDayData = {}
@@ -297,7 +297,7 @@ async function getGlobalData(ethPrice, oldEthPrice) {
       data.totalLiquidityUSD = data.totalLiquidityETH * ethPrice
       const liquidityChangeUSD = getPercentChange(
         data.totalLiquidityETH * ethPrice,
-        oneDayData.totalLiquidityETH * oldEthPrice
+        oneDayData.totalLiquidityETH * oldFtmPrice
       )
 
       // add relevant fields with the calculated amounts
@@ -467,7 +467,7 @@ const getGlobalTransactions = async () => {
 /**
  * Gets the current price  of ETH, 24 hour price, and % change between them
  */
-const getEthPrice = async () => {
+const getFtmPrice = async () => {
   const utcCurrentTime = dayjs()
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').startOf('minute').unix()
 
@@ -561,7 +561,7 @@ async function getAllTokensOnSoulSwap() {
  */
 export function useGlobalData() {
   const [state, { update, updateAllPairsInSoulSwap, updateAllTokensInSoulSwap }] = useGlobalDataContext()
-  const [ethPrice, oldEthPrice] = useEthPrice()
+  const [ethPrice, oldFtmPrice] = useFtmPrice()
 
   const data = state?.globalData
 
@@ -569,7 +569,7 @@ export function useGlobalData() {
 
   useEffect(() => {
     async function fetchData() {
-      let globalData = await getGlobalData(ethPrice, oldEthPrice)
+      let globalData = await getGlobalData(ethPrice, oldFtmPrice)
 
       globalData && update(globalData)
 
@@ -579,10 +579,10 @@ export function useGlobalData() {
       let allTokens = await getAllTokensOnSoulSwap()
       updateAllTokensInSoulSwap(allTokens)
     }
-    if (!data && ethPrice && oldEthPrice) {
+    if (!data && ethPrice && oldFtmPrice) {
       fetchData()
     }
-  }, [ethPrice, oldEthPrice, update, data, updateAllPairsInSoulSwap, updateAllTokensInSoulSwap])
+  }, [ethPrice, oldFtmPrice, update, data, updateAllPairsInSoulSwap, updateAllTokensInSoulSwap])
 
   return data || {}
 }
@@ -645,19 +645,19 @@ export function useGlobalTransactions() {
   return transactions
 }
 
-export function useEthPrice() {
-  const [state, { updateEthPrice }] = useGlobalDataContext()
+export function useFtmPrice() {
+  const [state, { updateFtmPrice }] = useGlobalDataContext()
   const ethPrice = state?.[ETH_PRICE_KEY]
   const ethPriceOld = state?.['oneDayPrice']
   useEffect(() => {
-    async function checkForEthPrice() {
+    async function checkForFtmPrice() {
       if (!ethPrice) {
-        let [newPrice, oneDayPrice, priceChange] = await getEthPrice()
-        updateEthPrice(newPrice, oneDayPrice, priceChange)
+        let [newPrice, oneDayPrice, priceChange] = await getFtmPrice()
+        updateFtmPrice(newPrice, oneDayPrice, priceChange)
       }
     }
-    checkForEthPrice()
-  }, [ethPrice, updateEthPrice])
+    checkForFtmPrice()
+  }, [ethPrice, updateFtmPrice])
 
   return [ethPrice, ethPriceOld]
 }

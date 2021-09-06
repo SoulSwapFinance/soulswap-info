@@ -11,7 +11,7 @@ import {
   TOKENS_HISTORICAL_BULK,
 } from '../apollo/queries'
 
-import { useEthPrice } from './GlobalData'
+import { useFtmPrice } from './GlobalData'
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -667,7 +667,7 @@ const getTokenChartData = async (tokenAddress) => {
 
 export function Updater() {
   const [, { updateTopTokens }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useEthPrice()
+  const [ethPrice, ethPriceOld] = useFtmPrice()
   useEffect(() => {
     async function getData() {
       // get top pairs for overview list
@@ -681,7 +681,7 @@ export function Updater() {
 
 export function useTokenData(tokenAddress) {
   const [state, { update }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useEthPrice()
+  const [ethPrice, ethPriceOld] = useFtmPrice()
   const tokenData = state?.[tokenAddress]
 
   useEffect(() => {
@@ -738,7 +738,7 @@ export function useTokenPairs(tokenAddress) {
 
 export function useTokenDataCombined(tokenAddresses) {
   const [state, { updateCombinedVolume }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useEthPrice()
+  const [ethPrice, ethPriceOld] = useFtmPrice()
 
   const volume = state?.combinedVol
 

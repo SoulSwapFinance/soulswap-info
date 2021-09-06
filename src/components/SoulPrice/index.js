@@ -34,7 +34,7 @@ export default function SoulPrice() {
       : 0
   }, [daiPair, usdcPair, fusdPair])
 
-  const daiPerFtm = daiPair ? parseFloat(daiPair.token0Price).toFixed(2) : '-'
+  const daiPerFtm = daiPair ? parseFloat(daiPair.token1Price).toFixed(2) : '-'
   const usdcPerFtm = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-'
   const fusdPerFtm = fusdPair ? parseFloat(fusdPair.token1Price).toFixed(2) : '-'
 
