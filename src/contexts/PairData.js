@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { createContext, useContext, useReducer, useMemo, useCallback, useEffect, useState } from 'react'
 
 import { client } from '../apollo/client'
@@ -287,7 +285,7 @@ function parseData(data, oneDayData, twoDayData, oneWeekData, ftmPrice, oneDayBl
   data.volumeChangeUntracked = volumeChangeUntracked
 
   // set liquidity properties
-  data.trackedReserveUSD = data.trackedReserveETH * ftmPrice
+  data.trackedReserveUSD = data.trackedReserveFTM * ftmPrice
   data.liquidityChangeUSD = getPercentChange(data.reserveUSD, oneDayData?.reserveUSD)
 
   // format if pair hasnt existed for a day or a week
@@ -510,7 +508,7 @@ export function useHourlyRateData(pairAddress, timeWindow) {
     const currentTime = dayjs.utc()
     const windowSize = timeWindow === timeframeOptions.MONTH ? 'month' : 'week'
     const startTime =
-      timeWindow === timeframeOptions.ALL_TIME ? 1625000000 : currentTime.subtract(1, windowSize).startOf('hour').unix()
+      timeWindow === timeframeOptions.ALL_TIME ? 1589760000 : currentTime.subtract(1, windowSize).startOf('hour').unix()
 
     async function fetch() {
       let data = await getHourlyRateData(pairAddress, startTime, latestBlock)
@@ -581,7 +579,7 @@ export function useDataForList(pairList) {
 }
 
 /**
- * Get all the current and 24H changes for a pair
+ * Get all the current and 24hr changes for a pair
  */
 export function usePairData(pairAddress) {
   const [state, { update }] = usePairDataContext()
@@ -638,7 +636,7 @@ export function usePairChartData(pairAddress) {
 }
 
 /**
- * Get list of all pairs in SoulSwap
+ * Get list of all pairs in Uniswap
  */
 export function useAllPairData() {
   const [state] = usePairDataContext()

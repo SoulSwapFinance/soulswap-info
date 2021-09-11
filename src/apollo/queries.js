@@ -3,7 +3,7 @@ import { FACTORY_ADDRESS, BUNDLE_ID } from '../constants'
 
 export const SUBGRAPH_HEALTH = gql`
   query health {
-    indexingStatusForCurrentVersion(subgraphName: "paint-swap-finance/exchange") {
+    indexingStatusForCurrentVersion(subgraphName: "soulswapfinance/fantom") {
       synced
       health
       chains {
@@ -146,7 +146,7 @@ export const SHARE_VALUE = (pairAddress, blocks) => {
   return gql(queryString)
 }
 
-export const ETH_PRICE = (block) => {
+export const FTM_PRICE = (block) => {
   const queryString = block
     ? `
     query bundles {
@@ -392,8 +392,8 @@ export const PAIR_DAY_DATA_BULK = (pairs, startTimestamp) => {
 }
 
 export const GLOBAL_CHART = gql`
-  query paintDayDatas($startTime: Int!, $skip: Int!) {
-    paintDayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
+  query soulSwapDayDatas($startTime: Int!, $skip: Int!) {
+    soulSwapDayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
       id
       date
       totalVolumeUSD
@@ -406,8 +406,8 @@ export const GLOBAL_CHART = gql`
 `
 
 export const GLOBAL_DATA = (block) => {
-  const queryString = ` query paintFactories {
-      paintFactories(
+  const queryString = ` query soulSwapFactories {
+      soulSwapFactories(
        ${block ? `block: { number: ${block}}` : ``} 
        where: { id: "${FACTORY_ADDRESS}" }) {
         id

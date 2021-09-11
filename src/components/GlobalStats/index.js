@@ -5,7 +5,7 @@ import { useMedia } from 'react-use'
 import { useGlobalData, useFtmPrice } from '../../contexts/GlobalData'
 import { formattedNum, localNumber } from '../../utils'
 
-import SoulPrice from '../SoulPrice'
+import UniPrice from '../UniPrice'
 import { TYPE } from '../../Theme'
 
 const Header = styled.div`
@@ -29,9 +29,8 @@ export default function GlobalStats() {
 
   const { oneDayVolumeUSD, oneDayTxns, totalPairs } = useGlobalData()
   const [ftmPrice] = useFtmPrice()
-  // const formattedFtmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
-  const formattedFtmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
-  const oneDayFees = oneDayVolumeUSD ? formattedNum(oneDayVolumeUSD * 0.0025, true) : ''
+  const formattedftmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
+  const oneDayFees = oneDayVolumeUSD ? formattedNum(oneDayVolumeUSD * 0.003, true) : ''
 
   return (
     <Header>
@@ -48,8 +47,8 @@ export default function GlobalStats() {
               }}
               style={{ position: 'relative' }}
             >
-              FTM Price: <Medium>{formattedFtmPrice}</Medium>
-              {showPriceCard && <SoulPrice />}
+              FTM Price: <Medium>{formattedftmPrice}</Medium>
+              {showPriceCard && <UniPrice />}
             </TYPE.main>
           )}
 
