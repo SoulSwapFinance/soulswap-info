@@ -4,8 +4,8 @@ import { HttpLink } from 'apollo-link-http'
 
 export const client = new ApolloClient({
   link: new HttpLink({
-    // uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/exchange',
-    uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/exchange-fantom',
+    uri: 'https://api.thegraph.com/subgraphs/name/paint-swap-finance/exchange',
+    // uri: 'https://api.thegraph.com/subgraphs/name/paint-swap-finance/exchange',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,
@@ -19,6 +19,7 @@ export const healthClient = new ApolloClient({
   shouldBatch: true,
 })
 
+// TODO: We need this?
 export const stakingClient = new ApolloClient({
   link: new HttpLink({
     uri: 'https://api.thegraph.com/subgraphs/name/way2rach/talisman',

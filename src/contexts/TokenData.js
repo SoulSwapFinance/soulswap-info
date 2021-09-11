@@ -5,10 +5,10 @@ import {
   TOKEN_DATA,
   FILTERED_TRANSACTIONS,
   TOKEN_CHART,
-  TOKEN_TOP_DAY_DATAS,
+  TOKENS_CURRENT,
+  TOKENS_DYNAMIC,
   PRICES_BY_BLOCK,
   PAIR_DATA,
-  TOKENS_HISTORICAL_BULK,
 } from '../apollo/queries'
 
 import { useFtmPrice } from './GlobalData'
@@ -42,7 +42,7 @@ dayjs.extend(utc)
 
 const TokenDataContext = createContext()
 
-export function useTokenDataContext() {
+function useTokenDataContext() {
   return useContext(TokenDataContext)
 }
 
@@ -220,7 +220,7 @@ export default function Provider({ children }) {
   )
 }
 
-const getTopTokens = async (ethPrice, ethPriceOld) => {
+const getTopTokens = async (ftmPrice, ftmPriceOld) => {
   const utcCurrentTime = dayjs()
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').unix()
   const utcTwoDaysBack = utcCurrentTime.subtract(2, 'day').unix()
@@ -228,32 +228,18 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
   let twoDayBlock = await getBlockFromTimestamp(utcTwoDaysBack)
 
   try {
-    // need to get the top tokens by liquidity by need token day datas
-    const currentDate = parseInt(Date.now() / 86400 / 1000) * 86400 - 86400
-
-    let tokenids = await client.query({
-      query: TOKEN_TOP_DAY_DATAS,
-      fetchPolicy: 'network-only',
-      variables: { date: currentDate },
-    })
-
-    const ids = tokenids?.data?.tokenDayDatas?.reduce((accum, entry) => {
-      accum.push(entry.id.slice(0, 42))
-      return accum
-    }, [])
-
     let current = await client.query({
-      query: TOKENS_HISTORICAL_BULK(ids),
+      query: TOKENS_CURRENT,
       fetchPolicy: 'cache-first',
     })
 
     let oneDayResult = await client.query({
-      query: TOKENS_HISTORICAL_BULK(ids, oneDayBlock),
+      query: TOKENS_DYNAMIC(oneDayBlock),
       fetchPolicy: 'cache-first',
     })
 
     let twoDayResult = await client.query({
-      query: TOKENS_HISTORICAL_BULK(ids, twoDayBlock),
+      query: TOKENS_DYNAMIC(twoDayBlock),
       fetchPolicy: 'cache-first',
     })
 
@@ -299,22 +285,22 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
             twoDayHistory?.tradeVolumeUSD ?? 0
           )
           const [oneDayTxns, txnChange] = get2DayPercentChange(
-            data.txCount,
-            oneDayHistory?.txCount ?? 0,
-            twoDayHistory?.txCount ?? 0
+            data.totalTransactions,
+            oneDayHistory?.totalTransactions ?? 0,
+            twoDayHistory?.totalTransactions ?? 0
           )
 
-          const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH
-          const oldLiquidityUSD = oneDayHistory?.totalLiquidity * ethPriceOld * oneDayHistory?.derivedETH
+          const currentLiquidityUSD = data?.totalLiquidity * ftmPrice * data?.derivedFTM
+          const oldLiquidityUSD = oneDayHistory?.totalLiquidity * ftmPriceOld * oneDayHistory?.derivedFTM
 
           // percent changes
           const priceChangeUSD = getPercentChange(
-            data?.derivedETH * ethPrice,
-            oneDayHistory?.derivedETH ? oneDayHistory?.derivedETH * ethPriceOld : 0
+            data?.derivedFTM * ftmPrice,
+            oneDayHistory?.derivedFTM ? oneDayHistory?.derivedFTM * ftmPriceOld : 0
           )
 
           // set data
-          data.priceUSD = data?.derivedETH * ethPrice
+          data.priceUSD = data?.derivedFTM * ftmPrice
           data.totalLiquidityUSD = currentLiquidityUSD
           data.oneDayVolumeUSD = parseFloat(oneDayVolumeUSD)
           data.volumeChangeUSD = volumeChangeUSD
@@ -326,8 +312,8 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
           // new tokens
           if (!oneDayHistory && data) {
             data.oneDayVolumeUSD = data.tradeVolumeUSD
-            data.oneDayVolumeETH = data.tradeVolume * data.derivedETH
-            data.oneDayTxns = data.txCount
+            data.oneDayVolumeFTM = data.tradeVolume * data.derivedFTM
+            data.oneDayTxns = data.totalTransactions
           }
 
           // update name data for
@@ -363,7 +349,7 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
   }
 }
 
-const getTokenData = async (address, ethPrice, ethPriceOld) => {
+const getTokenData = async (address, ftmPrice, ftmPriceOld) => {
   const utcCurrentTime = dayjs()
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').startOf('minute').unix()
   const utcTwoDaysBack = utcCurrentTime.subtract(2, 'day').startOf('minute').unix()
@@ -429,21 +415,21 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
 
     // calculate percentage changes and daily changes
     const [oneDayTxns, txnChange] = get2DayPercentChange(
-      data.txCount,
-      oneDayData?.txCount ?? 0,
-      twoDayData?.txCount ?? 0
+      data.totalTransactions,
+      oneDayData?.totalTransactions ?? 0,
+      twoDayData?.totalTransactions ?? 0
     )
 
     const priceChangeUSD = getPercentChange(
-      data?.derivedETH * ethPrice,
-      parseFloat(oneDayData?.derivedETH ?? 0) * ethPriceOld
+      data?.derivedFTM * ftmPrice,
+      parseFloat(oneDayData?.derivedFTM ?? 0) * ftmPriceOld
     )
 
-    const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH
-    const oldLiquidityUSD = oneDayData?.totalLiquidity * ethPriceOld * oneDayData?.derivedETH
+    const currentLiquidityUSD = data?.totalLiquidity * ftmPrice * data?.derivedFTM
+    const oldLiquidityUSD = oneDayData?.totalLiquidity * ftmPriceOld * oneDayData?.derivedFTM
 
     // set data
-    data.priceUSD = data?.derivedETH * ethPrice
+    data.priceUSD = data?.derivedFTM * ftmPrice
     data.totalLiquidityUSD = currentLiquidityUSD
     data.oneDayVolumeUSD = oneDayVolumeUSD
     data.volumeChangeUSD = volumeChangeUSD
@@ -462,8 +448,8 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
     // new tokens
     if (!oneDayData && data) {
       data.oneDayVolumeUSD = data.tradeVolumeUSD
-      data.oneDayVolumeETH = data.tradeVolume * data.derivedETH
-      data.oneDayTxns = data.txCount
+      data.oneDayVolumeFTM = data.tradeVolume * data.derivedFTM
+      data.oneDayTxns = data.totalTransactions
     }
 
     // update name data for
@@ -559,11 +545,11 @@ const getIntervalTokenData = async (tokenAddress, startTime, interval = 3600, la
     let values = []
     for (var row in result) {
       let timestamp = row.split('t')[1]
-      let derivedETH = parseFloat(result[row]?.derivedETH)
+      let derivedFTM = parseFloat(result[row]?.derivedFTM)
       if (timestamp) {
         values.push({
           timestamp,
-          derivedETH,
+          derivedFTM,
         })
       }
     }
@@ -573,9 +559,28 @@ const getIntervalTokenData = async (tokenAddress, startTime, interval = 3600, la
     for (var brow in result) {
       let timestamp = brow.split('b')[1]
       if (timestamp) {
-        values[index].priceUSD = result[brow].ethPrice * values[index].derivedETH
+        if (result[brow] === null) {
+          values[index].priceUSD = 0
+        } else {
+          values[index].priceUSD = result[brow].ftmPrice * values[index].derivedFTM
+        }
         index += 1
       }
+    }
+
+    let countZeros = 0
+    let price = 0
+    for (let i = 0; i < index; ++i) {
+      if (values[i].priceUSD === 0 || isNaN(values[i].priceUSD)) {
+        ++countZeros
+      } else {
+        price = values[i].priceUSD
+        break
+      }
+    }
+
+    for (let i = 0; i < countZeros; ++i) {
+      values[i].priceUSD = price
     }
 
     let formattedHistory = []
@@ -667,30 +672,30 @@ const getTokenChartData = async (tokenAddress) => {
 
 export function Updater() {
   const [, { updateTopTokens }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ftmPrice, ftmPriceOld] = useFtmPrice()
   useEffect(() => {
     async function getData() {
       // get top pairs for overview list
-      let topTokens = await getTopTokens(ethPrice, ethPriceOld)
+      let topTokens = await getTopTokens(ftmPrice, ftmPriceOld)
       topTokens && updateTopTokens(topTokens)
     }
-    ethPrice && ethPriceOld && getData()
-  }, [ethPrice, ethPriceOld, updateTopTokens])
+    ftmPrice && ftmPriceOld && getData()
+  }, [ftmPrice, ftmPriceOld, updateTopTokens])
   return null
 }
 
 export function useTokenData(tokenAddress) {
   const [state, { update }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ftmPrice, ftmPriceOld] = useFtmPrice()
   const tokenData = state?.[tokenAddress]
 
   useEffect(() => {
-    if (!tokenData && ethPrice && ethPriceOld && isAddress(tokenAddress)) {
-      getTokenData(tokenAddress, ethPrice, ethPriceOld).then((data) => {
+    if (!tokenData && ftmPrice && ftmPriceOld && isAddress(tokenAddress)) {
+      getTokenData(tokenAddress, ftmPrice, ftmPriceOld).then((data) => {
         update(tokenAddress, data)
       })
     }
-  }, [ethPrice, ethPriceOld, tokenAddress, tokenData, update])
+  }, [ftmPrice, ftmPriceOld, tokenAddress, tokenData, update])
 
   return tokenData || {}
 }
@@ -738,7 +743,7 @@ export function useTokenPairs(tokenAddress) {
 
 export function useTokenDataCombined(tokenAddresses) {
   const [state, { updateCombinedVolume }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ftmPrice, ftmPriceOld] = useFtmPrice()
 
   const volume = state?.combinedVol
 
@@ -746,7 +751,7 @@ export function useTokenDataCombined(tokenAddresses) {
     async function fetchDatas() {
       Promise.all(
         tokenAddresses.map(async (address) => {
-          return await getTokenData(address, ethPrice, ethPriceOld)
+          return await getTokenData(address, ftmPrice, ftmPriceOld)
         })
       )
         .then((res) => {
@@ -764,10 +769,10 @@ export function useTokenDataCombined(tokenAddresses) {
           console.log('error fetching combined data')
         })
     }
-    if (!volume && ethPrice && ethPriceOld) {
+    if (!volume && ftmPrice && ftmPriceOld) {
       fetchDatas()
     }
-  }, [tokenAddresses, ethPrice, ethPriceOld, volume, updateCombinedVolume])
+  }, [tokenAddresses, ftmPrice, ftmPriceOld, volume, updateCombinedVolume])
 
   return volume
 }
@@ -859,7 +864,7 @@ export function useTokenPriceData(tokenAddress, timeWindow, interval = 3600) {
     const currentTime = dayjs.utc()
     const windowSize = timeWindow === timeframeOptions.MONTH ? 'month' : 'week'
     const startTime =
-      timeWindow === timeframeOptions.ALL_TIME ? 1625000000 : currentTime.subtract(1, windowSize).startOf('hour').unix()
+      timeWindow === timeframeOptions.ALL_TIME ? 1589760000 : currentTime.subtract(1, windowSize).startOf('hour').unix()
 
     async function fetch() {
       let data = await getIntervalTokenData(tokenAddress, startTime, interval, latestBlock)

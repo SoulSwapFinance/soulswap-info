@@ -164,12 +164,12 @@ function PairPage({ pairAddress, history }) {
       : '-'
 
   // token data for usd
-  const [ethPrice] = useFtmPrice()
+  const [ftmPrice] = useFtmPrice()
   const token0USD =
-    token0?.derivedETH && ethPrice ? formattedNum(parseFloat(token0.derivedETH) * parseFloat(ethPrice), true) : ''
+    token0?.derivedETH && ftmPrice ? formattedNum(parseFloat(token0.derivedETH) * parseFloat(ftmPrice), true) : ''
 
   const token1USD =
-    token1?.derivedETH && ethPrice ? formattedNum(parseFloat(token1.derivedETH) * parseFloat(ethPrice), true) : ''
+    token1?.derivedETH && ftmPrice ? formattedNum(parseFloat(token1.derivedETH) * parseFloat(ftmPrice), true) : ''
 
   // rates
   const token0Rate = reserve0 && reserve1 ? formattedNum(reserve1 / reserve0) : '-'

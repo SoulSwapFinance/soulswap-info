@@ -8,11 +8,11 @@ import { useMedia } from 'react-use'
 import { transparentize } from 'polished'
 import { TYPE } from '../../Theme'
 import { withRouter } from 'react-router-dom'
-import { TrendingUp, List, PieChart } from 'react-feather' // Disc
+import { TrendingUp, PieChart } from 'react-feather' // Disc, List
 import Link from '../Link'
 import { useSessionStart } from '../../contexts/Application'
-import { useDarkModeManager } from '../../contexts/LocalStorage'
-import Toggle from '../Toggle'
+// import { useDarkModeManager } from '../../contexts/LocalStorage'
+// import Toggle from '../Toggle'
 
 const Wrapper = styled.div`
   height: ${({ isMobile }) => (isMobile ? 'initial' : '100vh')};
@@ -107,7 +107,7 @@ function SideNav({ history }) {
 
   const seconds = useSessionStart()
 
-  const [isDark, toggleDarkMode] = useDarkModeManager()
+  // const [isDark, toggleDarkMode] = useDarkModeManager()
 
   return (
     <Wrapper isMobile={below1080}>
@@ -148,7 +148,7 @@ function SideNav({ history }) {
                   </Option>
                 </BasicLink>
 
-                <BasicLink to="/accounts">
+                {/* <BasicLink to="/accounts">
                   <Option
                     activeText={
                       (history.location.pathname.split('/')[1] === 'accounts' ||
@@ -159,7 +159,7 @@ function SideNav({ history }) {
                     <List size={20} style={{ marginRight: '.75rem' }} />
                     Accounts
                   </Option>
-                </BasicLink>
+                </BasicLink> */}
               </AutoColumn>
             )}
           </AutoColumn>
@@ -183,11 +183,13 @@ function SideNav({ history }) {
               <Link href="https://twitter.com/SoulSwapFinance" target="_blank">
                 Twitter
               </Link>
+            </HeaderText>
+            <HeaderText>
               <Link href="https://t.me/SoulSwapDeFi" target="_blank">
                 Telegram
               </Link>
             </HeaderText>
-            <Toggle isActive={isDark} toggle={toggleDarkMode} />
+            {/* <Toggle isActive={isDark} toggle={toggleDarkMode} /> */}
           </AutoColumn>
           {!below1180 && (
             <Polling style={{ marginLeft: '.5rem' }}>

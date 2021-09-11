@@ -28,9 +28,9 @@ export default function GlobalStats() {
   const [showPriceCard, setShowPriceCard] = useState(false)
 
   const { oneDayVolumeUSD, oneDayTxns, totalPairs } = useGlobalData()
-  const [ethPrice] = useFtmPrice()
-  // const formattedFtmPrice = ethPrice ? formattedNum(ethPrice, true) : '-'
-  const formattedFtmPrice = ethPrice ? formattedNum(ethPrice, true) : '-'
+  const [ftmPrice] = useFtmPrice()
+  // const formattedFtmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
+  const formattedFtmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
   const oneDayFees = oneDayVolumeUSD ? formattedNum(oneDayVolumeUSD * 0.0025, true) : ''
 
   return (
