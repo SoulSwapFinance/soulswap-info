@@ -64,7 +64,7 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
               dot={false}
               type="monotone"
               name={currencyUnit === 'FTM' ? 'Price (FTM/' + symbol + ')' : 'Price (USD/' + symbol + ')'}
-              dataKey={currencyUnit === 'FTM' ? 'ethPerToken' : 'tokenPriceUSD'}
+              dataKey={currencyUnit === 'FTM' ? 'ftmPerToken' : 'tokenPriceUSD'}
               yAxisId={2}
               fill="var(--c-token)"
               opacity={'0.4'}
@@ -75,7 +75,7 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
               dot={false}
               type="monotone"
               name={currencyUnit === 'USD' ? 'Inverse (' + symbol + '/USD)' : 'Inverse (' + symbol + '/FTM)'}
-              dataKey={currencyUnit === 'USD' ? 'tokensPerUSD' : 'tokensPerEth'}
+              dataKey={currencyUnit === 'USD' ? 'tokensPerUSD' : 'tokensPerFtm'}
               yAxisId={3}
               fill="var(--c-token)"
               opacity={'0'}

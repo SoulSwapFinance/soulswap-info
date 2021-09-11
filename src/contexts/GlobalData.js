@@ -14,7 +14,7 @@ import {
   GLOBAL_DATA,
   GLOBAL_TXNS,
   GLOBAL_CHART,
-  ETH_PRICE,
+  FTM_PRICE,
   ALL_PAIRS,
   ALL_TOKENS,
   TOP_LPS_PER_PAIRS,
@@ -25,19 +25,13 @@ import { useTokenChartDataCombined } from './TokenData'
 const UPDATE = 'UPDATE'
 const UPDATE_TXNS = 'UPDATE_TXNS'
 const UPDATE_CHART = 'UPDATE_CHART'
-const UPDATE_ETH_PRICE = 'UPDATE_ETH_PRICE'
-const ETH_PRICE_KEY = 'ETH_PRICE_KEY'
-const UPDATE_ALL_PAIRS_IN_SOULWAP = 'UPDAUPDATE_ALL_PAIRS_IN_SOULWAPTE_TOP_PAIRS'
-const UPDATE_ALL_TOKENS_IN_SOULWAP = 'UPDATE_ALL_TOKENS_IN_SOULWAP'
+const UPDATE_FTM_PRICE = 'UPDATE_FTM_PRICE'
+const FTM_PRICE_KEY = 'FTM_PRICE_KEY'
+const UPDATE_ALL_PAIRS_IN_UNISWAP = 'UPDAUPDATE_ALL_PAIRS_IN_UNISWAPTE_TOP_PAIRS'
+const UPDATE_ALL_TOKENS_IN_UNISWAP = 'UPDATE_ALL_TOKENS_IN_UNISWAP'
 const UPDATE_TOP_LPS = 'UPDATE_TOP_LPS'
 
-const offsetVolumes = [
-  '0x9ea3b5b4ec044b70375236a281986106457b20ef',
-  '0x05934eba98486693aaec2d00b0e9ce918e37dc3f',
-  '0x3d7e683fc9c86b4d653c9e47ca12517440fad14e',
-  '0xfae9c647ad7d89e738aba720acf09af93dc535f7',
-  '0x7296368fe9bcb25d3ecc19af13655b907818cc09',
-]
+const offsetVolumes = []
 
 // format dayjs with the libraries that we need
 dayjs.extend(utc)
@@ -75,16 +69,16 @@ function reducer(state, { type, payload }) {
         },
       }
     }
-    case UPDATE_ETH_PRICE: {
-      const { ethPrice, oneDayPrice, ethPriceChange } = payload
+    case UPDATE_FTM_PRICE: {
+      const { ftmPrice, oneDayPrice, ftmPriceChange } = payload
       return {
-        [ETH_PRICE_KEY]: ethPrice,
+        [FTM_PRICE_KEY]: ftmPrice,
         oneDayPrice,
-        ethPriceChange,
+        ftmPriceChange,
       }
     }
 
-    case UPDATE_ALL_PAIRS_IN_SOULWAP: {
+    case UPDATE_ALL_PAIRS_IN_UNISWAP: {
       const { allPairs } = payload
       return {
         ...state,
@@ -92,7 +86,7 @@ function reducer(state, { type, payload }) {
       }
     }
 
-    case UPDATE_ALL_TOKENS_IN_SOULWAP: {
+    case UPDATE_ALL_TOKENS_IN_UNISWAP: {
       const { allTokens } = payload
       return {
         ...state,
@@ -143,29 +137,29 @@ export default function Provider({ children }) {
     })
   }, [])
 
-  const updateFtmPrice = useCallback((ethPrice, oneDayPrice, ethPriceChange) => {
+  const updateFtmPrice = useCallback((ftmPrice, oneDayPrice, ftmPriceChange) => {
     dispatch({
-      type: UPDATE_ETH_PRICE,
+      type: UPDATE_FTM_PRICE,
       payload: {
-        ethPrice,
+        ftmPrice,
         oneDayPrice,
-        ethPriceChange,
+        ftmPriceChange,
       },
     })
   }, [])
 
-  const updateAllPairsInSoulSwap = useCallback((allPairs) => {
+  const updateAllPairsInUniswap = useCallback((allPairs) => {
     dispatch({
-      type: UPDATE_ALL_PAIRS_IN_SOULWAP,
+      type: UPDATE_ALL_PAIRS_IN_UNISWAP,
       payload: {
         allPairs,
       },
     })
   }, [])
 
-  const updateAllTokensInSoulSwap = useCallback((allTokens) => {
+  const updateAllTokensInUniswap = useCallback((allTokens) => {
     dispatch({
-      type: UPDATE_ALL_TOKENS_IN_SOULWAP,
+      type: UPDATE_ALL_TOKENS_IN_UNISWAP,
       payload: {
         allTokens,
       },
@@ -191,8 +185,8 @@ export default function Provider({ children }) {
             updateChart,
             updateFtmPrice,
             updateTopLps,
-            updateAllPairsInSoulSwap,
-            updateAllTokensInSoulSwap,
+            updateAllPairsInUniswap,
+            updateAllTokensInUniswap,
           },
         ],
         [
@@ -202,8 +196,8 @@ export default function Provider({ children }) {
           updateTopLps,
           updateChart,
           updateFtmPrice,
-          updateAllPairsInSoulSwap,
-          updateAllTokensInSoulSwap,
+          updateAllPairsInUniswap,
+          updateAllTokensInUniswap,
         ]
       )}
     >
@@ -216,11 +210,11 @@ export default function Provider({ children }) {
  * Gets all the global data for the overview page.
  * Needs current eth price and the old eth price to get
  * 24 hour USD changes.
- * @param {*} ethPrice
- * @param {*} oldFtmPrice
+ * @param {*} ftmPrice
+ * @param {*} oldftmPrice
  */
 
-async function getGlobalData(ethPrice, oldFtmPrice) {
+async function getGlobalData(ftmPrice, oldftmPrice) {
   // data for each day , historic data used for % changes
   let data = {}
   let oneDayData = {}
@@ -272,7 +266,7 @@ async function getGlobalData(ethPrice, oldFtmPrice) {
       query: GLOBAL_DATA(twoWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const twoWeekData = twoWeekResult.data.soulSwapFactories[0]
+    let twoWeekData = twoWeekResult.data.soulSwapFactories[0]
 
     if (data && oneDayData && twoDayData && twoWeekData) {
       let [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
@@ -288,16 +282,16 @@ async function getGlobalData(ethPrice, oldFtmPrice) {
       )
 
       const [oneDayTxns, txnChange] = get2DayPercentChange(
-        data.txCount,
-        oneDayData.txCount ? oneDayData.txCount : 0,
-        twoDayData.txCount ? twoDayData.txCount : 0
+        data.totalTransactions,
+        oneDayData.totalTransactions ? oneDayData.totalTransactions : 0,
+        twoDayData.totalTransactions ? twoDayData.totalTransactions : 0
       )
 
       // format the total liquidity in USD
-      data.totalLiquidityUSD = data.totalLiquidityETH * ethPrice
+      data.totalLiquidityUSD = data.totalLiquidityFTM * ftmPrice
       const liquidityChangeUSD = getPercentChange(
-        data.totalLiquidityETH * ethPrice,
-        oneDayData.totalLiquidityETH * oldFtmPrice
+        data.totalLiquidityFTM * ftmPrice,
+        oneDayData.totalLiquidityFTM * oldftmPrice
       )
 
       // add relevant fields with the calculated amounts
@@ -467,43 +461,43 @@ const getGlobalTransactions = async () => {
 /**
  * Gets the current price  of ETH, 24 hour price, and % change between them
  */
-const getFtmPrice = async () => {
+const getftmPrice = async () => {
   const utcCurrentTime = dayjs()
   const utcOneDayBack = utcCurrentTime.subtract(1, 'day').startOf('minute').unix()
 
-  let ethPrice = 0
-  let ethPriceOneDay = 0
+  let ftmPrice = 0
+  let ftmPriceOneDay = 0
   let priceChangeETH = 0
 
   try {
     let oneDayBlock = await getBlockFromTimestamp(utcOneDayBack)
     let result = await client.query({
-      query: ETH_PRICE(),
+      query: FTM_PRICE(),
       fetchPolicy: 'cache-first',
     })
     let resultOneDay = await client.query({
-      query: ETH_PRICE(oneDayBlock),
+      query: FTM_PRICE(oneDayBlock),
       fetchPolicy: 'cache-first',
     })
-    const currentPrice = result?.data?.bundles[0]?.ethPrice
-    const oneDayBackPrice = resultOneDay?.data?.bundles[0]?.ethPrice
+    const currentPrice = result?.data?.bundles[0]?.ftmPrice
+    const oneDayBackPrice = resultOneDay?.data?.bundles[0]?.ftmPrice
     priceChangeETH = getPercentChange(currentPrice, oneDayBackPrice)
-    ethPrice = currentPrice
-    ethPriceOneDay = oneDayBackPrice
+    ftmPrice = currentPrice
+    ftmPriceOneDay = oneDayBackPrice
   } catch (e) {
     console.log(e)
   }
 
-  return [ethPrice, ethPriceOneDay, priceChangeETH]
+  return [ftmPrice, ftmPriceOneDay, priceChangeETH]
 }
 
 const PAIRS_TO_FETCH = 500
 const TOKENS_TO_FETCH = 500
 
 /**
- * Loop through every pair on soulSwap, used for search
+ * Loop through every pair on uniswap, used for search
  */
-async function getAllPairsOnSoulSwap() {
+async function getAllPairsOnUniswap() {
   try {
     let allFound = false
     let pairs = []
@@ -529,9 +523,9 @@ async function getAllPairsOnSoulSwap() {
 }
 
 /**
- * Loop through every token on soulSwap, used for search
+ * Loop through every token on uniswap, used for search
  */
-async function getAllTokensOnSoulSwap() {
+async function getAllTokensOnUniswap() {
   try {
     let allFound = false
     let skipCount = 0
@@ -560,8 +554,8 @@ async function getAllTokensOnSoulSwap() {
  * Hook that fetches overview data, plus all tokens and pairs for search
  */
 export function useGlobalData() {
-  const [state, { update, updateAllPairsInSoulSwap, updateAllTokensInSoulSwap }] = useGlobalDataContext()
-  const [ethPrice, oldFtmPrice] = useFtmPrice()
+  const [state, { update, updateAllPairsInUniswap, updateAllTokensInUniswap }] = useGlobalDataContext()
+  const [ftmPrice, oldftmPrice] = useFtmPrice()
 
   const data = state?.globalData
 
@@ -569,20 +563,20 @@ export function useGlobalData() {
 
   useEffect(() => {
     async function fetchData() {
-      let globalData = await getGlobalData(ethPrice, oldFtmPrice)
+      let globalData = await getGlobalData(ftmPrice, oldftmPrice)
 
       globalData && update(globalData)
 
-      let allPairs = await getAllPairsOnSoulSwap()
-      updateAllPairsInSoulSwap(allPairs)
+      let allPairs = await getAllPairsOnUniswap()
+      updateAllPairsInUniswap(allPairs)
 
-      let allTokens = await getAllTokensOnSoulSwap()
-      updateAllTokensInSoulSwap(allTokens)
+      let allTokens = await getAllTokensOnUniswap()
+      updateAllTokensInUniswap(allTokens)
     }
-    if (!data && ethPrice && oldFtmPrice) {
+    if (!data && ftmPrice && oldftmPrice) {
       fetchData()
     }
-  }, [ethPrice, oldFtmPrice, update, data, updateAllPairsInSoulSwap, updateAllTokensInSoulSwap])
+  }, [ftmPrice, oldftmPrice, update, data, updateAllPairsInUniswap, updateAllTokensInUniswap])
 
   return data || {}
 }
@@ -647,19 +641,19 @@ export function useGlobalTransactions() {
 
 export function useFtmPrice() {
   const [state, { updateFtmPrice }] = useGlobalDataContext()
-  const ethPrice = state?.[ETH_PRICE_KEY]
-  const ethPriceOld = state?.['oneDayPrice']
+  const ftmPrice = state?.[FTM_PRICE_KEY]
+  const ftmPriceOld = state?.['oneDayPrice']
   useEffect(() => {
-    async function checkForFtmPrice() {
-      if (!ethPrice) {
-        let [newPrice, oneDayPrice, priceChange] = await getFtmPrice()
+    async function checkForftmPrice() {
+      if (!ftmPrice) {
+        let [newPrice, oneDayPrice, priceChange] = await getftmPrice()
         updateFtmPrice(newPrice, oneDayPrice, priceChange)
       }
     }
-    checkForFtmPrice()
-  }, [ethPrice, updateFtmPrice])
+    checkForftmPrice()
+  }, [ftmPrice, updateFtmPrice])
 
-  return [ethPrice, ethPriceOld]
+  return [ftmPrice, ftmPriceOld]
 }
 
 export function useAllPairsInSoulSwap() {
@@ -669,7 +663,7 @@ export function useAllPairsInSoulSwap() {
   return allPairs || []
 }
 
-export function useAllTokensInSoulSwap() {
+export function useAllTokensInUniswap() {
   const [state] = useGlobalDataContext()
   let allTokens = state?.allTokens
 

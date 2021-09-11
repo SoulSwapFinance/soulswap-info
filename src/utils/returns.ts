@@ -167,7 +167,7 @@ export function getMetricsForPositionWindow(positionT0: Position, positionT1: Po
  */
 export async function getHistoricalPairReturns(startDateTimestamp, currentPairData, pairSnapshots, currentFTMPrice) {
   // catch case where data not puplated yet
-  if (!currentPairData.createdAtTimestamp) {
+  if (!currentPairData.timestamp) {
     return []
   }
   let dayIndex: number = Math.round(startDateTimestamp / 86400) // get unique day bucket unix
@@ -182,7 +182,7 @@ export async function getHistoricalPairReturns(startDateTimestamp, currentPairDa
   const dayTimestamps = []
   while (dayIndex < currentDayIndex) {
     // only account for days where this pair existed
-    if (dayIndex * 86400 >= parseInt(currentPairData.createdAtTimestamp)) {
+    if (dayIndex * 86400 >= parseInt(currentPairData.timestamp)) {
       dayTimestamps.push(dayIndex * 86400)
     }
     dayIndex = dayIndex + 1
@@ -255,9 +255,9 @@ export async function getHistoricalPairReturns(startDateTimestamp, currentPairDa
  * For a given pair and user, get the return metrics
  * @param user
  * @param pair
- * @param ethPrice
+ * @param ftmPrice
  */
-export async function getLPReturnsOnPair(user: string, pair, ethPrice: number, snapshots) {
+export async function getLPReturnsOnPair(user: string, pair, ftmPrice: number, snapshots) {
   // initialize values
   const principal = await getPrincipalForUserPerPair(user, pair.id)
   let hodlReturn = 0
@@ -277,8 +277,8 @@ export async function getLPReturnsOnPair(user: string, pair, ethPrice: number, s
     reserve0: pair.reserve0,
     reserve1: pair.reserve1,
     reserveUSD: pair.reserveUSD,
-    token0PriceUSD: pair.token0.derivedETH * ethPrice,
-    token1PriceUSD: pair.token1.derivedETH * ethPrice,
+    token0PriceUSD: pair.token0.derivedETH * ftmPrice,
+    token1PriceUSD: pair.token1.derivedETH * ftmPrice,
   }
 
   for (const index in snapshots) {

@@ -3,7 +3,7 @@ import { FACTORY_ADDRESS, BUNDLE_ID } from '../constants'
 
 export const SUBGRAPH_HEALTH = gql`
   query health {
-    indexingStatusForCurrentVersion(subgraphName: "soulswapfinance/exchange") {
+    indexingStatusForCurrentVersion(subgraphName: "soulswapfinance/fantom") {
       synced
       health
       chains {
@@ -69,7 +69,7 @@ export const PRICES_BY_BLOCK = (tokenAddress, blocks) => {
   queryString += blocks.map(
     (block) => `
       t${block.timestamp}:token(id:"${tokenAddress}", block: { number: ${block.number} }) { 
-        derivedETH
+        derivedFTM
       }
     `
   )
@@ -77,7 +77,7 @@ export const PRICES_BY_BLOCK = (tokenAddress, blocks) => {
   queryString += blocks.map(
     (block) => `
       b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) { 
-        ethPrice
+        ftmPrice
       }
     `
   )
@@ -125,10 +125,10 @@ export const SHARE_VALUE = (pairAddress, blocks) => {
         reserveUSD
         totalSupply 
         token0{
-          derivedETH
+          derivedFTM
         }
         token1{
-          derivedETH
+          derivedFTM
         }
       }
     `
@@ -137,7 +137,7 @@ export const SHARE_VALUE = (pairAddress, blocks) => {
   queryString += blocks.map(
     (block) => `
       b${block.timestamp}: bundle(id:"1", block: { number: ${block.number} }) { 
-        ethPrice
+        ftmPrice
       }
     `
   )
@@ -146,20 +146,20 @@ export const SHARE_VALUE = (pairAddress, blocks) => {
   return gql(queryString)
 }
 
-export const ETH_PRICE = (block) => {
+export const FTM_PRICE = (block) => {
   const queryString = block
     ? `
     query bundles {
       bundles(where: { id: ${BUNDLE_ID} } block: {number: ${block}}) {
         id
-        ethPrice
+        ftmPrice
       }
     }
   `
     : ` query bundles {
       bundles(where: { id: ${BUNDLE_ID} }) {
         id
-        ethPrice
+        ftmPrice
       }
     }
   `
@@ -256,12 +256,12 @@ export const USER_POSITIONS = gql`
         token0 {
           id
           symbol
-          derivedETH
+          derivedFTM
         }
         token1 {
           id
           symbol
-          derivedETH
+          derivedFTM
         }
         totalSupply
       }
@@ -398,9 +398,9 @@ export const GLOBAL_CHART = gql`
       date
       totalVolumeUSD
       dailyVolumeUSD
-      dailyVolumeETH
+      dailyVolumeFTM
       totalLiquidityUSD
-      totalLiquidityETH
+      totalLiquidityFTM
     }
   }
 `
@@ -412,11 +412,11 @@ export const GLOBAL_DATA = (block) => {
        where: { id: "${FACTORY_ADDRESS}" }) {
         id
         totalVolumeUSD
-        totalVolumeETH
+        totalVolumeFTM
         untrackedVolumeUSD
         totalLiquidityUSD
-        totalLiquidityETH
-        txCount
+        totalLiquidityFTM
+        totalTransactions
         totalPairs
       }
     }`
@@ -574,7 +574,7 @@ export const PAIR_SEARCH = gql`
 
 export const ALL_PAIRS = gql`
   query pairs($skip: Int!) {
-    pairs(first: 500, skip: $skip, orderBy: trackedReserveETH, orderDirection: desc) {
+    pairs(first: 500, skip: $skip, orderBy: trackedReserveFTM, orderDirection: desc) {
       id
       token0 {
         id
@@ -593,32 +593,32 @@ export const ALL_PAIRS = gql`
 const PairFields = `
   fragment PairFields on Pair {
     id
-    txCount
+    totalTransactions
     token0 {
       id
       symbol
       name
       totalLiquidity
-      derivedETH
+      derivedFTM
     }
     token1 {
       id
       symbol
       name
       totalLiquidity
-      derivedETH
+      derivedFTM
     }
     reserve0
     reserve1
     reserveUSD
     totalSupply
-    trackedReserveETH
-    reserveETH
+    trackedReserveFTM
+    reserveFTM
     volumeUSD
     untrackedVolumeUSD
     token0Price
     token1Price
-    createdAtTimestamp
+    timestamp
   }
 `
 
@@ -668,7 +668,7 @@ export const MINING_POSITIONS = (account) => {
 export const PAIRS_BULK = gql`
   ${PairFields}
   query pairs($allPairs: [Bytes]!) {
-    pairs(first: 500, where: { id_in: $allPairs }, orderBy: trackedReserveETH, orderDirection: desc) {
+    pairs(first: 500, where: { id_in: $allPairs }, orderBy: trackedReserveFTM, orderDirection: desc) {
       ...PairFields
     }
   }
@@ -682,10 +682,10 @@ export const PAIRS_HISTORICAL_BULK = (block, pairs) => {
   pairsString += ']'
   let queryString = `
   query pairs {
-    pairs(first: 200, where: {id_in: ${pairsString}}, block: {number: ${block}}, orderBy: trackedReserveETH, orderDirection: desc) {
+    pairs(first: 200, where: {id_in: ${pairsString}}, block: {number: ${block}}, orderBy: trackedReserveFTM, orderDirection: desc) {
       id
       reserveUSD
-      trackedReserveETH
+      trackedReserveFTM
       volumeUSD
       untrackedVolumeUSD
     }
@@ -702,8 +702,8 @@ export const TOKEN_CHART = gql`
       priceUSD
       totalLiquidityToken
       totalLiquidityUSD
-      totalLiquidityETH
-      dailyVolumeETH
+      totalLiquidityFTM
+      dailyVolumeFTM
       dailyVolumeToken
       dailyVolumeUSD
     }
@@ -715,56 +715,14 @@ const TokenFields = `
     id
     name
     symbol
-    derivedETH
+    derivedFTM
     tradeVolume
     tradeVolumeUSD
     untrackedVolumeUSD
     totalLiquidity
-    txCount
+    totalTransactions
   }
 `
-
-// used for getting top tokens by daily volume
-export const TOKEN_TOP_DAY_DATAS = gql`
-  query tokenDayDatas($date: Int) {
-    tokenDayDatas(first: 50, orderBy: totalLiquidityUSD, orderDirection: desc, where: { date_gt: $date }) {
-      id
-      date
-    }
-  }
-`
-
-export const TOKENS_BULK = gql`
-  ${TokenFields}
-  query tokens($tokenAddresses: [Bytes]!) {
-    pairs(where: { id_in: $tokenAddresses }) {
-      ...TokenFields
-    }
-  }
-`
-export const TOKENS_HISTORICAL_BULK = (tokens, block) => {
-  let tokenString = `[`
-  tokens.map((token) => {
-    return (tokenString += `"${token}",`)
-  })
-  tokenString += ']'
-  let queryString = `
-  query tokens {
-    tokens(first: 50, where: {id_in: ${tokenString}}, ${block ? 'block: {number: ' + block + '}' : ''}  ) {
-      id
-      name
-      symbol
-      derivedETH
-      tradeVolume
-      tradeVolumeUSD
-      untrackedVolumeUSD
-      totalLiquidity
-      txCount
-    }
-  }
-  `
-  return gql(queryString)
-}
 
 export const TOKENS_CURRENT = gql`
   ${TokenFields}
@@ -806,7 +764,7 @@ export const TOKEN_DATA = (tokenAddress, block) => {
 }
 
 export const FILTERED_TRANSACTIONS = gql`
-  query ($allPairs: [Bytes]!) {
+  query($allPairs: [Bytes]!) {
     mints(first: 20, where: { pair_in: $allPairs }, orderBy: timestamp, orderDirection: desc) {
       transaction {
         id

@@ -10,10 +10,10 @@ import { useAllTokenData, useTokenData } from '../../contexts/TokenData'
 import { useAllPairData, usePairData } from '../../contexts/PairData'
 import DoubleTokenLogo from '../DoubleLogo'
 import { useMedia } from 'react-use'
-import { useAllPairsInSoulSwap, useAllTokensInSoulSwap } from '../../contexts/GlobalData'
+import { useAllPairsInSoulSwap, useAllTokensInUniswap } from '../../contexts/GlobalData'
 import { TOKEN_BLACKLIST, PAIR_BLACKLIST } from '../../constants'
 
-import { transparentize } from 'polished'
+// import { transparentize } from 'polished'
 import { client } from '../../apollo/client'
 import { PAIR_SEARCH, TOKEN_SEARCH } from '../../apollo/queries'
 import FormattedName from '../FormattedName'
@@ -38,7 +38,7 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   padding: 12px 16px;
   border-radius: 12px;
-  background: ${({ theme, small, open }) => (small ? (open ? theme.bg6 : 'none') : transparentize(0.4, theme.bg6))};
+  background: ${({ theme, small, open }) => (open ? '#272636' : 'none')};
   border-bottom-right-radius: ${({ open }) => (open ? '0px' : '12px')};
   border-bottom-left-radius: ${({ open }) => (open ? '0px' : '12px')};
   z-index: 9999;
@@ -62,8 +62,10 @@ const Input = styled.input`
   display: flex;
   align-items: center;
   white-space: nowrap;
+  padding: 12px 16px;
   background: none;
-  border: none;
+  border-radius: 8px;
+  border: 2px solid ${({ theme }) => theme.primary2};
   outline: none;
   width: 100%;
   color: ${({ theme }) => theme.text1};
@@ -84,7 +86,7 @@ const Input = styled.input`
 const SearchIconLarge = styled(SearchIcon)`
   height: 20px;
   width: 20px;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   position: absolute;
   right: 10px;
   pointer-events: none;
@@ -94,7 +96,7 @@ const SearchIconLarge = styled(SearchIcon)`
 const CloseIcon = styled(X)`
   height: 20px;
   width: 20px;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   position: absolute;
   right: 10px;
   color: ${({ theme }) => theme.text3};
@@ -113,7 +115,7 @@ const Menu = styled.div`
   overflow: auto;
   left: 0;
   padding-bottom: 20px;
-  background: ${({ theme }) => theme.bg6};
+  background: #272636;
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04),
@@ -150,7 +152,7 @@ const Blue = styled.span`
 `
 
 export const Search = ({ small = false }) => {
-  let allTokens = useAllTokensInSoulSwap()
+  let allTokens = useAllTokensInUniswap()
   const allTokenData = useAllTokenData()
 
   let allPairs = useAllPairsInSoulSwap()
@@ -314,13 +316,13 @@ export const Search = ({ small = false }) => {
           .sort((a, b) => {
             const pairA = allPairData[a.id]
             const pairB = allPairData[b.id]
-            if (pairA?.trackedReserveETH && pairB?.trackedReserveETH) {
-              return parseFloat(pairA.trackedReserveETH) > parseFloat(pairB.trackedReserveETH) ? -1 : 1
+            if (pairA?.trackedReserveFTM && pairB?.trackedReserveFTM) {
+              return parseFloat(pairA.trackedReserveFTM) > parseFloat(pairB.trackedReserveFTM) ? -1 : 1
             }
-            if (pairA?.trackedReserveETH && !pairB?.trackedReserveETH) {
+            if (pairA?.trackedReserveFTM && !pairB?.trackedReserveFTM) {
               return -1
             }
-            if (!pairA?.trackedReserveETH && pairB?.trackedReserveETH) {
+            if (!pairA?.trackedReserveFTM && pairB?.trackedReserveFTM) {
               return 1
             }
             return 0
