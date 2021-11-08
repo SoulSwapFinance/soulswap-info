@@ -182,7 +182,7 @@ export default function Provider({ children }) {
   )
 }
 
-async function getBulkPairData(pairList, ftmPrice) {
+async function getBulkPairData(pairList, ethPrice) {
   const [t1, t2, tWeek] = getTimestampsForChanges()
   let [{ number: b1 }, { number: b2 }, { number: bWeek }] = await getBlocksFromTimestamps([t1, t2, tWeek])
 
@@ -245,7 +245,7 @@ async function getBulkPairData(pairList, ftmPrice) {
             })
             oneWeekHistory = newData.data.pairs[0]
           }
-          data = parseData(data, oneDayHistory, twoDayHistory, oneWeekHistory, ftmPrice, b1)
+          data = parseData(data, oneDayHistory, twoDayHistory, oneWeekHistory, ethPrice, b1)
           return data
         })
     )
@@ -255,7 +255,7 @@ async function getBulkPairData(pairList, ftmPrice) {
   }
 }
 
-function parseData(data, oneDayData, twoDayData, oneWeekData, ftmPrice, oneDayBlock) {
+function parseData(data, oneDayData, twoDayData, oneWeekData, ethPrice, oneDayBlock) {
   const pairAddress = data.id
 
   // get volume changes
@@ -285,7 +285,7 @@ function parseData(data, oneDayData, twoDayData, oneWeekData, ftmPrice, oneDayBl
   data.volumeChangeUntracked = volumeChangeUntracked
 
   // set liquidity properties
-  data.trackedReserveUSD = data.trackedReserveFTM * ftmPrice
+  data.trackedReserveUSD = data.trackedReserveETH * ethPrice
   data.liquidityChangeUSD = getPercentChange(data.reserveUSD, oneDayData?.reserveUSD)
 
   // format if pair hasnt existed for a day or a week
@@ -474,7 +474,7 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
 
 export function Updater() {
   const [, { updateTopPairs }] = usePairDataContext()
-  const [ftmPrice] = useFtmPrice()
+  const [ethPrice] = useFtmPrice()
   useEffect(() => {
     async function getData() {
       // get top pairs by reserves
@@ -491,11 +491,11 @@ export function Updater() {
       })
 
       // get data for every pair in list
-      let topPairs = await getBulkPairData(formattedPairs, ftmPrice)
+      let topPairs = await getBulkPairData(formattedPairs, ethPrice)
       topPairs && updateTopPairs(topPairs)
     }
-    ftmPrice && getData()
-  }, [ftmPrice, updateTopPairs])
+    ethPrice && getData()
+  }, [ethPrice, updateTopPairs])
   return null
 }
 
@@ -528,7 +528,7 @@ export function useHourlyRateData(pairAddress, timeWindow) {
  */
 export function useDataForList(pairList) {
   const [state] = usePairDataContext()
-  const [ftmPrice] = useFtmPrice()
+  const [ethPrice] = useFtmPrice()
 
   const [stale, setStale] = useState(false)
   const [fetched, setFetched] = useState([])
@@ -559,15 +559,15 @@ export function useDataForList(pairList) {
         unfetched.map((pair) => {
           return pair
         }),
-        ftmPrice
+        ethPrice
       )
       setFetched(newFetched.concat(newPairData))
     }
-    if (ftmPrice && pairList && pairList.length > 0 && !fetched && !stale) {
+    if (ethPrice && pairList && pairList.length > 0 && !fetched && !stale) {
       setStale(true)
       fetchNewPairData()
     }
-  }, [ftmPrice, state, pairList, stale, fetched])
+  }, [ethPrice, state, pairList, stale, fetched])
 
   let formattedFetch =
     fetched &&
@@ -583,20 +583,20 @@ export function useDataForList(pairList) {
  */
 export function usePairData(pairAddress) {
   const [state, { update }] = usePairDataContext()
-  const [ftmPrice] = useFtmPrice()
+  const [ethPrice] = useFtmPrice()
   const pairData = state?.[pairAddress]
 
   useEffect(() => {
     async function fetchData() {
       if (!pairData && pairAddress) {
-        let data = await getBulkPairData([pairAddress], ftmPrice)
+        let data = await getBulkPairData([pairAddress], ethPrice)
         data && update(pairAddress, data[0])
       }
     }
-    if (!pairData && pairAddress && ftmPrice && isAddress(pairAddress)) {
+    if (!pairData && pairAddress && ethPrice && isAddress(pairAddress)) {
       fetchData()
     }
-  }, [pairAddress, pairData, update, ftmPrice])
+  }, [pairAddress, pairData, update, ethPrice])
 
   return pairData || {}
 }

@@ -96,7 +96,7 @@ function AccountPage({ account }) {
   const miningPositions = useMiningPositions(account)
 
   // get data for user stats
-  const transactionCount = transactions?.swaps?.length + transactions?.burns?.length + transactions?.mints?.length
+  const txCount = transactions?.swaps?.length + transactions?.burns?.length + transactions?.mints?.length
 
   // get derived totals
   let totalSwappedUSD = useMemo(() => {
@@ -362,7 +362,7 @@ function AccountPage({ account }) {
                 <TYPE.main>Total Fees Paid</TYPE.main>
               </AutoColumn>
               <AutoColumn gap="8px">
-                <TYPE.header fontSize={24}>{transactionCount ? transactionCount : '-'}</TYPE.header>
+                <TYPE.header fontSize={24}>{txCount ? txCount : '-'}</TYPE.header>
                 <TYPE.main>Total Transactions</TYPE.main>
               </AutoColumn>
             </AutoRow>
