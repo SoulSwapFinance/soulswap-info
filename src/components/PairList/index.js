@@ -236,8 +236,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
           {!below1080 && <DataText area="fees">{formatDataText(fees, pairData.oneDayVolumeUSD)}</DataText>}
           {!below1080 && (
             <DataText area="apy">
-              {/* {formatDataText(apy, pairData.oneDayVolumeUSD, pairData.oneDayVolumeUSD === 0)} */}
-              {(apy, pairData.oneDayVolumeUSD, pairData.oneDayVolumeUSD === 0)}
+              {formatDataText(apy, pairData.oneDayVolumeUSD, pairData.oneDayVolumeUSD === 0)}
             </DataText>
           )}
         </DashGrid>
