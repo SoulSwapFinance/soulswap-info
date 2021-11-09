@@ -104,6 +104,7 @@ function SideNav({ history }) {
   const below1080 = useMedia('(max-width: 1080px)')
 
   const below1180 = useMedia('(max-width: 1180px)')
+  // const below4200 = useMedia('(max-width: 4200px)')
 
   const seconds = useSessionStart()
 
@@ -166,7 +167,7 @@ function SideNav({ history }) {
           <AutoColumn gap="0.5rem" style={{ marginLeft: '.75rem', marginBottom: '4rem' }}>
             <HeaderText>
               <Link href="https://soulswap.finance" target="_blank">
-                Home
+                Homes
               </Link>
             </HeaderText>
             <HeaderText>
