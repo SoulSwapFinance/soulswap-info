@@ -11,14 +11,14 @@ import Wordmark from '../../assets/wordmark_white.svg'
 import { BasicLink } from '../Link'
 import { useMedia } from 'react-use'
 
-const TitleWrapper = styled.div`
-  text-decoration: none;
-  z-index: 10;
-  width: 100%;
-  &:hover {
-    cursor: pointer;
-  }
-`
+// const TitleWrapper = styled.div`
+//   text-decoration: none;
+//   z-index: 10;
+//   width: 100%;
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `
 
 const UniIcon = styled(Link)`
   transition: transform 0.3s ease;
