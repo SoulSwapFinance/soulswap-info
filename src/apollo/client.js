@@ -23,7 +23,8 @@ export const healthClient = new ApolloClient({
 // TODO: We need this?
 export const stakingClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/way2rach/talisman',
+    // uri: 'https://api.thegraph.com/subgraphs/name/way2rach/talisman',
+    uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/soul-summoner',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,
