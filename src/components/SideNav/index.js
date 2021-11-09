@@ -8,7 +8,7 @@ import { useMedia } from 'react-use'
 import { transparentize } from 'polished'
 import { TYPE } from '../../Theme'
 import { withRouter } from 'react-router-dom'
-import { TrendingUp, PieChart } from 'react-feather' // Disc, List
+import { Disc, List, TrendingUp, PieChart } from 'react-feather'
 import Link from '../Link'
 import { useSessionStart } from '../../contexts/Application'
 // import { useDarkModeManager } from '../../contexts/LocalStorage'
@@ -123,7 +123,7 @@ function SideNav({ history }) {
                     Overview
                   </Option>
                 </BasicLink>
-                {/* <BasicLink to="/tokens">
+                <BasicLink to="/tokens">
                   <Option
                     activeText={
                       (history.location.pathname.split('/')[1] === 'tokens' ||
@@ -134,7 +134,7 @@ function SideNav({ history }) {
                     <Disc size={20} style={{ marginRight: '.75rem' }} />
                     Tokens
                   </Option>
-                </BasicLink> */}
+                </BasicLink>
                 <BasicLink to="/pairs">
                   <Option
                     activeText={
@@ -148,7 +148,7 @@ function SideNav({ history }) {
                   </Option>
                 </BasicLink>
 
-                {/* <BasicLink to="/accounts">
+                <BasicLink to="/accounts">
                   <Option
                     activeText={
                       (history.location.pathname.split('/')[1] === 'accounts' ||
@@ -159,14 +159,14 @@ function SideNav({ history }) {
                     <List size={20} style={{ marginRight: '.75rem' }} />
                     Accounts
                   </Option>
-                </BasicLink> */}
+                </BasicLink>
               </AutoColumn>
             )}
           </AutoColumn>
           <AutoColumn gap="0.5rem" style={{ marginLeft: '.75rem', marginBottom: '4rem' }}>
             <HeaderText>
               <Link href="https://soulswap.finance" target="_blank">
-                SoulSwap.finance
+                Home
               </Link>
             </HeaderText>
             <HeaderText>
