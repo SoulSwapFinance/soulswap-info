@@ -44,14 +44,14 @@ export function getPoolLink(token0Address, token1Address = null, remove = false)
     return (
       `https://exchange.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${'ETH'}`
     )
   } else {
     return (
       `https://app.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${
-        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${
+        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address
       }`
     )
   }
@@ -62,8 +62,8 @@ export function getSwapLink(token0Address, token1Address = null) {
     return `https://app.soulswap.finance/swap?inputCurrency=${token0Address}`
   } else {
     return `https://app.soulswap.finance/swap?inputCurrency=${
-      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
-    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
+      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address
+    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address}`
   }
 }
 
@@ -77,7 +77,7 @@ export function getSoulSwapAppLink(linkVariable) {
     return baseSoulSwapUrl
   }
 
-  return `${baseSoulSwapUrl}/FTM/${linkVariable}`
+  return `${baseSoulSwapUrl}/ETH/${linkVariable}`
 }
 
 export function localNumber(val) {
