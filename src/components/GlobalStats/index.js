@@ -27,9 +27,9 @@ export default function GlobalStats() {
 
   const [showPriceCard, setShowPriceCard] = useState(false)
 
-  const { oneDayVolumeUSD, oneDayTxns, totalPairs } = useGlobalData()
-  const [ftmPrice] = useFtmPrice()
-  const formattedftmPrice = ftmPrice ? formattedNum(ftmPrice, true) : '-'
+  const { oneDayVolumeUSD, oneDayTxns, pairCount } = useGlobalData()
+  const [ethPrice] = useFtmPrice()
+  const formattedethPrice = ethPrice ? formattedNum(ethPrice, true) : '-'
   const oneDayFees = oneDayVolumeUSD ? formattedNum(oneDayVolumeUSD * 0.003, true) : ''
 
   return (
@@ -47,7 +47,7 @@ export default function GlobalStats() {
               }}
               style={{ position: 'relative' }}
             >
-              FTM Price: <Medium>{formattedftmPrice}</Medium>
+              FTM Price: <Medium>{formattedethPrice}</Medium>
               {showPriceCard && <UniPrice />}
             </TYPE.main>
           )}
@@ -59,7 +59,7 @@ export default function GlobalStats() {
           )}
           {!below1024 && (
             <TYPE.main mr={'1rem'}>
-              Pairs: <Medium>{localNumber(totalPairs)}</Medium>
+              Pairs: <Medium>{localNumber(pairCount)}</Medium>
             </TYPE.main>
           )}
           {!below1295 && (

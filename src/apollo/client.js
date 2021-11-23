@@ -6,7 +6,8 @@ export const client = new ApolloClient({
   link: new HttpLink({
     // uri: 'https://api.thegraph.com/subgraphs/name/paint-swap-finance/exchange',
     // uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/fantom-exchange',
-    uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/fantom',
+    uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/fantom-soulswap',
+    // uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/fantom',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,
@@ -23,7 +24,8 @@ export const healthClient = new ApolloClient({
 // TODO: We need this?
 export const stakingClient = new ApolloClient({
   link: new HttpLink({
-    uri: 'https://api.thegraph.com/subgraphs/name/way2rach/talisman',
+    // uri: 'https://api.thegraph.com/subgraphs/name/way2rach/talisman',
+    uri: 'https://api.thegraph.com/subgraphs/name/soulswapfinance/soul-summoner',
   }),
   cache: new InMemoryCache(),
   shouldBatch: true,

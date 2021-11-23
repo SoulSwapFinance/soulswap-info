@@ -1,4 +1,4 @@
-export const FACTORY_ADDRESS = '0x1120e150dA9def6Fe930f4fEDeD18ef57c0CA7eF'
+export const FACTORY_ADDRESS = '0x1120e150da9def6fe930f4feded18ef57c0ca7ef'
 
 export const BUNDLE_ID = '1'
 
@@ -31,6 +31,8 @@ export const TOKEN_BLACKLIST = [
   '0x3d5f8fb7e5de6bf2c1944d24c94ef48b84ad13c6',
   '0x0affa8225b51e8f6b365c71dbfb6d7d26d525e61', // dummy brush
   '0xbaf503dfc9d8ecb24d0f493f3e54e69cfb814c7f', // dummy brush
+  '0xf43cc235e686d7bc513f53fbffb61f760c3a1882', // ELITE
+  '0xa2527af9dabf3e3b4979d7e0493b5e2c6e63dc57' // SOUL-WFTM
 ]
 
 // pair blacklist
@@ -44,6 +46,7 @@ export const PAIR_BLACKLIST = [
   '0xe0c2a9f0f9f0bffc4520111b68a40dcf9f74cf24',
   '0x5c88d0b3f0353a91372b427098fc4386502751ad',
   '0x9661a8fcd5df4747b0caf09718d29014f878330a',
+  '0x4444ce43eacb5433b1fb7ac80a797442deaecfdf' // SOUL-SOUL/FTM LP
 ]
 
 // warnings to display if page contains info about blocked token

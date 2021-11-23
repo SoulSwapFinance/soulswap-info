@@ -44,14 +44,14 @@ export function getPoolLink(token0Address, token1Address = null, remove = false)
     return (
       `https://exchange.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${'ETH'}`
     )
   } else {
     return (
       `https://app.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${
-        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address
+      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address}/${
+        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address
       }`
     )
   }
@@ -62,8 +62,8 @@ export function getSwapLink(token0Address, token1Address = null) {
     return `https://app.soulswap.finance/swap?inputCurrency=${token0Address}`
   } else {
     return `https://app.soulswap.finance/swap?inputCurrency=${
-      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
-    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
+      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token0Address
+    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'ETH' : token1Address}`
   }
 }
 
@@ -77,7 +77,7 @@ export function getSoulSwapAppLink(linkVariable) {
     return baseSoulSwapUrl
   }
 
-  return `${baseSoulSwapUrl}/FTM/${linkVariable}`
+  return `${baseSoulSwapUrl}/ETH/${linkVariable}`
 }
 
 export function localNumber(val) {
@@ -249,7 +249,7 @@ export async function getShareValueOverTime(pairAddress, timestamps) {
         token0DerivedETH: result.data[row].token0.derivedETH,
         token1DerivedETH: result.data[row].token1.derivedETH,
         roiUsd: values && values[0] ? sharePriceUsd / values[0]['sharePriceUsd'] : 1,
-        ftmPrice: 0,
+        ethPrice: 0,
         token0PriceUSD: 0,
         token1PriceUSD: 0,
       })
@@ -261,9 +261,9 @@ export async function getShareValueOverTime(pairAddress, timestamps) {
   for (var brow in result?.data) {
     let timestamp = brow.split('b')[1]
     if (timestamp) {
-      values[index].ftmPrice = result.data[brow].ftmPrice
-      values[index].token0PriceUSD = result.data[brow].ftmPrice * values[index].token0DerivedETH
-      values[index].token1PriceUSD = result.data[brow].ftmPrice * values[index].token1DerivedETH
+      values[index].ethPrice = result.data[brow].ethPrice
+      values[index].token0PriceUSD = result.data[brow].ethPrice * values[index].token0DerivedETH
+      values[index].token1PriceUSD = result.data[brow].ethPrice * values[index].token1DerivedETH
       index += 1
     }
   }

@@ -3,29 +3,29 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Flex } from 'rebass'
-import Link from '../Link'
+// import Link from '../Link'
 import { RowFixed } from '../Row'
-import Logo from '../../assets/logo_white.svg'
-import Wordmark from '../../assets/wordmark_white.svg'
+import Wordmark from '../../assets/title-logo.png'
+// import Wordmark from '../../assets/wordmark_white.svg'
 
 import { BasicLink } from '../Link'
 import { useMedia } from 'react-use'
 
-const TitleWrapper = styled.div`
-  text-decoration: none;
-  z-index: 10;
-  width: 100%;
-  &:hover {
-    cursor: pointer;
-  }
-`
+// const TitleWrapper = styled.div`
+//   text-decoration: none;
+//   z-index: 10;
+//   width: 100%;
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `
 
-const UniIcon = styled(Link)`
-  transition: transform 0.3s ease;
-  :hover {
-    transform: rotate(-5deg);
-  }
-`
+// const UniIcon = styled(Link)`
+//   transition: transform 0.3s ease;
+//   :hover {
+//     transform: rotate(-5deg);
+//   }
+// `
 
 const Option = styled.div`
   font-weight: 500;
@@ -44,14 +44,20 @@ export default function Title() {
   const below1080 = useMedia('(max-width: 1080px)')
 
   return (
-    <TitleWrapper onClick={() => history.push('/')}>
+    // <TitleWrapper onClick={() => history.push('/')}>
       <Flex alignItems="center" style={{ justifyContent: 'space-between' }}>
         <RowFixed>
-          <UniIcon id="link" onClick={() => history.push('/')}>
+          {/* <UniIcon id="link" onClick={() => history.push('/')}>
             <img width={'24px'} src={Logo} alt="logo" />
-          </UniIcon>
+          </UniIcon> */}
           {!below1080 && (
-            <img width={'84px'} style={{ marginLeft: '8px', marginTop: '0px' }} src={Wordmark} alt="logo" />
+            <img width={'96px'} 
+              style={{ marginLeft: '2px', marginTop: '0px' }}
+              onClick={() => history.push('/')}
+              src={Wordmark}
+              alt="logo"
+              
+            />
           )}
         </RowFixed>
         {below1080 && (
@@ -59,7 +65,7 @@ export default function Title() {
             <BasicLink to="/home">
               <Option activeText={history.location.pathname === '/home' ?? undefined}>Overview</Option>
             </BasicLink>
-            {/* <BasicLink to="/tokens">
+            <BasicLink to="/tokens">
               <Option
                 activeText={
                   (history.location.pathname.split('/')[1] === 'tokens' ||
@@ -69,7 +75,7 @@ export default function Title() {
               >
                 Tokens
               </Option>
-            </BasicLink> */}
+            </BasicLink>
             <BasicLink to="/pairs">
               <Option
                 activeText={
@@ -82,7 +88,7 @@ export default function Title() {
               </Option>
             </BasicLink>
 
-            {/* <BasicLink to="/accounts">
+            <BasicLink to="/accounts">
               <Option
                 activeText={
                   (history.location.pathname.split('/')[1] === 'accounts' ||
@@ -92,10 +98,10 @@ export default function Title() {
               >
                 Accounts
               </Option>
-            </BasicLink> */}
+            </BasicLink>
           </RowFixed>
         )}
       </Flex>
-    </TitleWrapper>
+    // </TitleWrapper>
   )
 }

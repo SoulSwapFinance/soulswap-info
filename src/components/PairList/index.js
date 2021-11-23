@@ -127,16 +127,30 @@ const FIELD_TO_VALUE = (field, useTracked) => {
   }
 }
 
+// const formatDataText = (value, trackedValue, supressWarning = false) => {
+//   const showUntracked = value !== '$0' && !trackedValue & !supressWarning
+//   return (
+//     <AutoColumn gap="2px" style={{ opacity: showUntracked ? '0.7' : '1' }}>
+//       <div style={{ textAlign: 'right' }}>{value}</div>
+//       <TYPE.light fontSize={'9px'} style={{ textAlign: 'right' }}>
+//       {showUntracked ? 'untracked' : '  '}
+//       </TYPE.light> 
+//     </AutoColumn>
+//   )
+
+// }
+
 const formatDataText = (value, trackedValue, supressWarning = false) => {
   const showUntracked = value !== '$0' && !trackedValue & !supressWarning
   return (
-    <AutoColumn gap="2px" style={{ opacity: showUntracked ? '0.7' : '1' }}>
+    <AutoColumn gap="2px" style={{ opacity: showUntracked ? '1' : '1' }}>
       <div style={{ textAlign: 'right' }}>{value}</div>
       <TYPE.light fontSize={'9px'} style={{ textAlign: 'right' }}>
-        {showUntracked ? 'untracked' : '  '}
-      </TYPE.light>
+      {showUntracked ? '' : ''}
+      </TYPE.light> 
     </AutoColumn>
   )
+
 }
 
 function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = false }) {
