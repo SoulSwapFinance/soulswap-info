@@ -32,7 +32,11 @@ export const TOKEN_BLACKLIST = [
   '0x0affa8225b51e8f6b365c71dbfb6d7d26d525e61', // dummy brush
   '0xbaf503dfc9d8ecb24d0f493f3e54e69cfb814c7f', // dummy brush
   '0xf43cc235e686d7bc513f53fbffb61f760c3a1882', // ELITE
-  '0xa2527af9dabf3e3b4979d7e0493b5e2c6e63dc57' // SOUL-WFTM
+  '0xa2527af9dabf3e3b4979d7e0493b5e2c6e63dc57', // SOUL-WFTM
+  '0x01abfdf9aa9b1689f5497409112e327b51397783', // fake LUX
+  '0x204fd448ded97a87a442a512768503e3fd175d70', // fake LUM
+  '0x977d428e3fca17118ed3d68907845591fb2b7fd7', // LUX-FTM LP
+  '0xf21e7307f8a0c18bf72fe3880efe82868cc7eeb5' // LUX-DAI LP
 ]
 
 // pair blacklist
@@ -46,7 +50,11 @@ export const PAIR_BLACKLIST = [
   '0xe0c2a9f0f9f0bffc4520111b68a40dcf9f74cf24',
   '0x5c88d0b3f0353a91372b427098fc4386502751ad',
   '0x9661a8fcd5df4747b0caf09718d29014f878330a',
-  '0x4444ce43eacb5433b1fb7ac80a797442deaecfdf' // SOUL-SOUL/FTM LP
+  '0x4444ce43eacb5433b1fb7ac80a797442deaecfdf', // SOUL-SOUL/FTM LP
+  '0x01abfdf9aa9b1689f5497409112e327b51397783', // fake LUX
+  '0x204fd448ded97a87a442a512768503e3fd175d70', // fake LUM
+  '0x977d428e3fca17118ed3d68907845591fb2b7fd7', // LUX-FTM LP
+  '0xf21e7307f8a0c18bf72fe3880efe82868cc7eeb5' // LUX-DAI LP
 ]
 
 // warnings to display if page contains info about blocked token

@@ -325,7 +325,7 @@ function AccountPage({ account }) {
             {miningPositions && <MiningPositionList miningPositions={miningPositions} />}
             {!miningPositions && (
               <AutoColumn gap="8px" justify="flex-start">
-                <TYPE.main>No Staked Liquidity.</TYPE.main>
+                <TYPE.main>Coming Soon...</TYPE.main>
                 <AutoRow gap="8px" justify="flex-start">
                   <ButtonLight style={{ padding: '4px 6px', borderRadius: '4px' }}>Learn More</ButtonLight>{' '}
                 </AutoRow>{' '}
