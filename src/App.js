@@ -15,7 +15,7 @@ import AllTokensPage from './pages/AllTokensPage'
 import AllPairsPage from './pages/AllPairsPage'
 import PinnedData from './components/PinnedData'
 
-import SideNav from './components/SideNav'
+// import SideNav from './components/SideNav'
 import AccountLookup from './pages/AccountLookup'
 import LocalLoader from './components/LocalLoader'
 import { useLatestBlocks } from './contexts/Application'
@@ -34,7 +34,7 @@ const ContentWrapper = styled.div`
     grid-template-columns: 220px 1fr;
   }
 
-  @media screen and (max-width: 1080px) {
+  @media screen and (max-width: 4200px) {
     grid-template-columns: 1fr;
     max-width: 100vw;
     overflow: hidden;
@@ -85,7 +85,7 @@ const LayoutWrapper = ({ children, savedOpen, setSavedOpen }) => {
   return (
     <>
       <ContentWrapper open={savedOpen}>
-        <SideNav />
+        {/* <SideNav /> */}
         <Center id="center">{children}</Center>
         <Right open={savedOpen}>
           <PinnedData open={savedOpen} setSavedOpen={setSavedOpen} />
