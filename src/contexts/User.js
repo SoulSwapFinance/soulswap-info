@@ -1,17 +1,16 @@
 import React, { createContext, useContext, useReducer, useMemo, useCallback, useEffect, useState } from 'react'
 import { useAllPairData, usePairData } from './PairData'
-import { client, stakingClient } from '../apollo/client'
+import { client } from '../apollo/client'
 import {
   USER_TRANSACTIONS,
   USER_POSITIONS,
   USER_HISTORY,
   PAIR_DAY_DATA_BULK,
-  MINING_POSITIONS,
 } from '../apollo/queries'
 import { useTimeframe, useStartTimestamp } from './Application'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { useFtmPrice } from './GlobalData'
+import { useNativePrice } from './GlobalData'
 import { getLPReturnsOnPair, getHistoricalPairReturns } from '../utils/returns'
 import { timeframeOptions } from '../constants'
 
@@ -258,7 +257,7 @@ export function useUserPositionChart(position, account) {
 
   // get data needed for calculations
   const currentPairData = usePairData(pairAddress)
-  const [currentFTMPrice] = useFtmPrice()
+  const [currentAVAXPrice] = useNativePrice()
 
   // formatetd array to return for chart data
   const formattedHistory = state?.[account]?.[USER_PAIR_RETURNS_KEY]?.[pairAddress]
@@ -269,7 +268,7 @@ export function useUserPositionChart(position, account) {
         startDateTimestamp,
         currentPairData,
         pairSnapshots,
-        currentFTMPrice
+        currentAVAXPrice
       )
       updateUserPairReturns(account, pairAddress, fetchedData)
     }
@@ -281,7 +280,7 @@ export function useUserPositionChart(position, account) {
       currentPairData &&
       Object.keys(currentPairData).length > 0 &&
       pairAddress &&
-      currentFTMPrice
+      currentAVAXPrice
     ) {
       fetchData()
     }
@@ -292,7 +291,7 @@ export function useUserPositionChart(position, account) {
     formattedHistory,
     pairAddress,
     currentPairData,
-    currentFTMPrice,
+    currentAVAXPrice,
     updateUserPairReturns,
     position.pair.id,
   ])
@@ -448,7 +447,7 @@ export function useUserPositions(account) {
   const positions = state?.[account]?.[POSITIONS_KEY]
 
   const snapshots = useUserSnapshots(account)
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
 
   useEffect(() => {
     async function fetchData(account) {
@@ -495,10 +494,11 @@ export function useMiningPositions(account) {
     async function fetchData(account) {
       try {
         let miningPositionData = []
-        let result = await stakingClient.query({
-          query: MINING_POSITIONS(account),
-          fetchPolicy: 'no-cache',
-        })
+        let result = []
+        // let result = await stakingClient.query({
+        //   query: MINING_POSITIONS(account),
+        //   fetchPolicy: 'no-cache',
+        // })
         if (!result?.data?.user?.miningPosition) {
           return
         }

@@ -3,7 +3,7 @@ import { FACTORY_ADDRESS, BUNDLE_ID } from '../constants'
 
 export const SUBGRAPH_HEALTH = gql`
   query health {
-    indexingStatusForCurrentVersion(subgraphName: "soulswapfinance/fantom-soulswap") {
+    indexingStatusForCurrentVersion(subgraphName: "soulswapfinance/avalanche-exchange") {
       synced
       health
       chains {
@@ -146,7 +146,7 @@ export const SHARE_VALUE = (pairAddress, blocks) => {
   return gql(queryString)
 }
 
-export const FTM_PRICE = (block) => {
+export const NATIVE_PRICE = (block) => {
   const queryString = block
     ? `
     query bundles {
@@ -346,9 +346,9 @@ export const PAIR_CHART = gql`
     pairDayDatas(first: 1000, skip: $skip, orderBy: date, orderDirection: asc, where: { pairAddress: $pairAddress }) {
       id
       date
-      dailyVolumeToken0
-      dailyVolumeToken1
-      dailyVolumeUSD
+      volumeToken0
+      volumeToken1
+      volumeUSD
       reserveUSD
     }
   }
@@ -359,9 +359,9 @@ export const PAIR_DAY_DATA = gql`
     pairDayDatas(first: 1, orderBy: date, orderDirection: desc, where: { pairAddress: $pairAddress, date_lt: $date }) {
       id
       date
-      dailyVolumeToken0
-      dailyVolumeToken1
-      dailyVolumeUSD
+      volumeToken0
+      volumeToken1
+      volumeUSD
       totalSupply
       reserveUSD
     }
@@ -378,11 +378,11 @@ export const PAIR_DAY_DATA_BULK = (pairs, startTimestamp) => {
     query days {
       pairDayDatas(first: 1000, orderBy: date, orderDirection: asc, where: { pairAddress_in: ${pairsString}, date_gt: ${startTimestamp} }) {
         id
-        pairAddress
+        pair
         date
-        dailyVolumeToken0
-        dailyVolumeToken1
-        dailyVolumeUSD
+        volumeToken0
+        volumeToken1
+        volumeUSD
         totalSupply
         reserveUSD
       }
@@ -392,30 +392,29 @@ export const PAIR_DAY_DATA_BULK = (pairs, startTimestamp) => {
 }
 
 export const GLOBAL_CHART = gql`
-  query uniswapDayDatas($startTime: Int!, $skip: Int!) {
-    uniswapDayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
+  query dayDatas($startTime: Int!, $skip: Int!) {
+    dayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
       id
       date
-      totalVolumeUSD
-      dailyVolumeUSD
-      dailyVolumeETH
-      totalLiquidityUSD
-      totalLiquidityETH
+      volumeUSD
+      volumeUSD
+      liquidityUSD
+      liquidityETH
     }
   }
 `
 
 export const GLOBAL_DATA = (block) => {
-  const queryString = ` query uniswapFactories {
-      uniswapFactories(
+  const queryString = ` query factories {
+      factories(
        ${block ? `block: { number: ${block}}` : ``} 
        where: { id: "${FACTORY_ADDRESS}" }) {
         id
-        totalVolumeUSD
-        totalVolumeETH
+        volumeUSD
+        volumeETH
         untrackedVolumeUSD
-        totalLiquidityUSD
-        totalLiquidityETH
+        liquidityUSD
+        liquidityETH
         txCount
         pairCount
       }
@@ -500,30 +499,30 @@ export const ALL_TOKENS = gql`
       id
       name
       symbol
-      totalLiquidity
+      liquidity
     }
   }
 `
 
 export const TOKEN_SEARCH = gql`
   query tokens($value: String, $id: String) {
-    asSymbol: tokens(where: { symbol_contains: $value }, orderBy: totalLiquidity, orderDirection: desc) {
+    asSymbol: tokens(where: { symbol_contains: $value }, orderBy: liquidity, orderDirection: desc) {
       id
       symbol
       name
-      totalLiquidity
+      liquidity
     }
-    asName: tokens(where: { name_contains: $value }, orderBy: totalLiquidity, orderDirection: desc) {
+    asName: tokens(where: { name_contains: $value }, orderBy: liquidity, orderDirection: desc) {
       id
       symbol
       name
-      totalLiquidity
+      liquidity
     }
-    asAddress: tokens(where: { id: $id }, orderBy: totalLiquidity, orderDirection: desc) {
+    asAddress: tokens(where: { id: $id }, orderBy: lquidity, orderDirection: desc) {
       id
       symbol
       name
-      totalLiquidity
+      liquidity
     }
   }
 `
@@ -598,14 +597,14 @@ const PairFields = `
       id
       symbol
       name
-      totalLiquidity
+      liquidity
       derivedETH
     }
     token1 {
       id
       symbol
       name
-      totalLiquidity
+      liquidity
       derivedETH
     }
     reserve0
@@ -618,7 +617,7 @@ const PairFields = `
     untrackedVolumeUSD
     token0Price
     token1Price
-    createdAtTimestamp
+    timestamp
   }
 `
 
@@ -700,12 +699,12 @@ export const TOKEN_CHART = gql`
       id
       date
       priceUSD
-      totalLiquidityToken
-      totalLiquidityUSD
-      totalLiquidityETH
+      liquidityToken
+      liquidityUSD
+      liquidityETH
       dailyVolumeETH
       dailyVolumeToken
-      dailyVolumeUSD
+      volumeUSD
     }
   }
 `
@@ -716,10 +715,10 @@ const TokenFields = `
     name
     symbol
     derivedETH
-    tradeVolume
-    tradeVolumeUSD
+    volume
+    volumeUSD
     untrackedVolumeUSD
-    totalLiquidity
+    liquidity
     txCount
   }
 `
@@ -727,7 +726,7 @@ const TokenFields = `
 export const TOKENS_CURRENT = gql`
   ${TokenFields}
   query tokens {
-    tokens(first: 200, orderBy: tradeVolumeUSD, orderDirection: desc) {
+    tokens(first: 200, orderBy: volumeUSD, orderDirection: desc) {
       ...TokenFields
     }
   }
@@ -737,7 +736,7 @@ export const TOKENS_DYNAMIC = (block) => {
   const queryString = `
     ${TokenFields}
     query tokens {
-      tokens(block: {number: ${block}} first: 200, orderBy: tradeVolumeUSD, orderDirection: desc) {
+      tokens(block: {number: ${block}} first: 200, orderBy: volumeUSD, orderDirection: desc) {
         ...TokenFields
       }
     }

@@ -8,10 +8,9 @@ import {
   TOKENS_CURRENT,
   TOKENS_DYNAMIC,
   PRICES_BY_BLOCK,
-  PAIR_DATA,
-} from '../apollo/queries'
+  } from '../apollo/queries'
 
-import { useFtmPrice } from './GlobalData'
+import { useNativePrice } from './GlobalData'
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -280,9 +279,9 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
 
           // calculate percentage changes and daily changes
           const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
-            data.tradeVolumeUSD,
-            oneDayHistory?.tradeVolumeUSD ?? 0,
-            twoDayHistory?.tradeVolumeUSD ?? 0
+            data.volumeUSD,
+            oneDayHistory?.volumeUSD ?? 0,
+            twoDayHistory?.volumeUSD ?? 0
           )
           const [oneDayTxns, txnChange] = get2DayPercentChange(
             data.txCount,
@@ -311,28 +310,16 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
 
           // new tokens
           if (!oneDayHistory && data) {
-            data.oneDayVolumeUSD = data.tradeVolumeUSD
-            data.oneDayVolumeFTM = data.tradeVolume * data.derivedETH
+            data.oneDayVolumeUSD = data.volumeUSD
+            data.oneDayVolumeAVAX = data.volume * data.derivedETH
             data.oneDayTxns = data.txCount
           }
 
           // update name data for
           updateNameData({
             token0: data,
-          })
-
-          // HOTFIX for Aave
-          if (data.id === '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9') {
-            const aaveData = await client.query({
-              query: PAIR_DATA('0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f'),
-              fetchPolicy: 'cache-first',
-            })
-            const result = aaveData.data.pairs[0]
-            data.totalLiquidityUSD = parseFloat(result.reserveUSD) / 2
-            data.liquidityChangeUSD = 0
-            data.priceChangeUSD = 0
-          }
-
+          })          
+          
           // used for custom adjustments
           data.oneDayData = oneDayHistory
           data.twoDayData = twoDayHistory
@@ -401,9 +388,9 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
 
     // calculate percentage changes and daily changes
     const [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
-      data.tradeVolumeUSD,
-      oneDayData?.tradeVolumeUSD ?? 0,
-      twoDayData?.tradeVolumeUSD ?? 0
+      data.volumeUSD,
+      oneDayData?.volumeUSD ?? 0,
+      twoDayData?.volumeUSD ?? 0
     )
 
     // calculate percentage changes and daily changes
@@ -447,8 +434,8 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
 
     // new tokens
     if (!oneDayData && data) {
-      data.oneDayVolumeUSD = data.tradeVolumeUSD
-      data.oneDayVolumeFTM = data.tradeVolume * data.derivedETH
+      data.oneDayVolumeUSD = data.volumeUSD
+      data.oneDayVolumeAVAX = data.volume * data.derivedETH
       data.oneDayTxns = data.txCount
     }
 
@@ -457,17 +444,6 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
       token0: data,
     })
 
-    // HOTFIX for Aave
-    if (data.id === '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9') {
-      const aaveData = await client.query({
-        query: PAIR_DATA('0xdfc14d2af169b0d36c4eff567ada9b2e0cae044f'),
-        fetchPolicy: 'cache-first',
-      })
-      const result = aaveData.data.pairs[0]
-      data.totalLiquidityUSD = parseFloat(result.reserveUSD) / 2
-      data.liquidityChangeUSD = 0
-      data.priceChangeUSD = 0
-    }
   } catch (e) {
     console.log(e)
   }
@@ -672,7 +648,7 @@ const getTokenChartData = async (tokenAddress) => {
 
 export function Updater() {
   const [, { updateTopTokens }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ethPrice, ethPriceOld] = useNativePrice()
   useEffect(() => {
     async function getData() {
       // get top pairs for overview list
@@ -686,7 +662,7 @@ export function Updater() {
 
 export function useTokenData(tokenAddress) {
   const [state, { update }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ethPrice, ethPriceOld] = useNativePrice()
   const tokenData = state?.[tokenAddress]
 
   useEffect(() => {
@@ -743,7 +719,7 @@ export function useTokenPairs(tokenAddress) {
 
 export function useTokenDataCombined(tokenAddresses) {
   const [state, { updateCombinedVolume }] = useTokenDataContext()
-  const [ethPrice, ethPriceOld] = useFtmPrice()
+  const [ethPrice, ethPriceOld] = useNativePrice()
 
   const volume = state?.combinedVol
 

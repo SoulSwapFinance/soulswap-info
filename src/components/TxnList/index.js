@@ -288,7 +288,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
           </Link>
         </DataText>
         <DataText area="value">
-          {currency === 'FTM' ? 'Ξ ' + formattedNum(item.valueETH) : formattedNum(item.amountUSD, true)}
+          {currency === 'AVAX' ? 'Ξ ' + formattedNum(item.valueETH) : formattedNum(item.amountUSD, true)}
         </DataText>
         {!below780 && (
           <>
@@ -304,7 +304,7 @@ function TxnList({ transactions, symbol0Override, symbol1Override, color }) {
         )}
         {!below1080 && (
           <DataText area="account">
-            <Link color={color} external href={'https://ftmscan.com/address/' + item.account}>
+            <Link color={color} external href={'https://snowtrace.io/address/' + item.account}>
               {item.account && item.account.slice(0, 6) + '...' + item.account.slice(38, 42)}
             </Link>
           </DataText>

@@ -11,7 +11,7 @@ import {
   HOURLY_PAIR_RATES,
 } from '../apollo/queries'
 
-import { useFtmPrice } from './GlobalData'
+import { useNativePrice } from './GlobalData'
 
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -474,7 +474,7 @@ const getHourlyRateData = async (pairAddress, startTime, latestBlock) => {
 
 export function Updater() {
   const [, { updateTopPairs }] = usePairDataContext()
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
   useEffect(() => {
     async function getData() {
       // get top pairs by reserves
@@ -528,7 +528,7 @@ export function useHourlyRateData(pairAddress, timeWindow) {
  */
 export function useDataForList(pairList) {
   const [state] = usePairDataContext()
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
 
   const [stale, setStale] = useState(false)
   const [fetched, setFetched] = useState([])
@@ -583,7 +583,7 @@ export function useDataForList(pairList) {
  */
 export function usePairData(pairAddress) {
   const [state, { update }] = usePairDataContext()
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
   const pairData = state?.[pairAddress]
 
   useEffect(() => {

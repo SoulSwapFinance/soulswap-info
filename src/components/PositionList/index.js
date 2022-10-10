@@ -11,7 +11,7 @@ import DoubleTokenLogo from '../DoubleLogo'
 import { withRouter } from 'react-router-dom'
 import { formattedNum, getPoolLink } from '../../utils'
 import { AutoColumn } from '../Column'
-import { useFtmPrice } from '../../contexts/GlobalData'
+import { useNativePrice } from '../../contexts/GlobalData'
 import { RowFixed } from '../Row'
 import { ButtonLight } from '../ButtonStyled'
 import { TYPE } from '../../Theme'
@@ -135,7 +135,7 @@ function PositionList({ positions }) {
     }
   }, [positions])
 
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
 
   const ListItem = ({ position, index }) => {
     const poolOwnership = position.liquidityTokenBalance / position.pair.totalSupply

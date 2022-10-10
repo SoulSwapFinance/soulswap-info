@@ -44,14 +44,14 @@ export function getPoolLink(token0Address, token1Address = null, remove = false)
     return (
       `https://exchange.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${'FTM'}`
+      `/${token0Address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' ? 'AVAX' : token0Address}/${'AVAX'}`
     )
   } else {
     return (
       `https://app.soulswap.finance/` +
       (remove ? `remove` : `add`) +
-      `/${token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address}/${
-        token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address
+      `/${token0Address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' ? 'AVAX' : token0Address}/${
+        token1Address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' ? 'AVAX' : token1Address
       }`
     )
   }
@@ -62,13 +62,13 @@ export function getSwapLink(token0Address, token1Address = null) {
     return `https://app.soulswap.finance/swap?inputCurrency=${token0Address}`
   } else {
     return `https://app.soulswap.finance/swap?inputCurrency=${
-      token0Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token0Address
-    }&outputCurrency=${token1Address === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' ? 'FTM' : token1Address}`
+      token0Address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' ? 'AVAX' : token0Address
+    }&outputCurrency=${token1Address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' ? 'AVAX' : token1Address}`
   }
 }
 
 export function getMiningPoolLink(token0Address) {
-  return `https://app.soulswap.finance/farms/FTM/${token0Address}`
+  return `https://app.soulswap.finance/farms/AVAX/${token0Address}`
 }
 
 export function getSoulSwapAppLink(linkVariable) {
@@ -77,7 +77,7 @@ export function getSoulSwapAppLink(linkVariable) {
     return baseSoulSwapUrl
   }
 
-  return `${baseSoulSwapUrl}/FTM/${linkVariable}`
+  return `${baseSoulSwapUrl}/AVAX/${linkVariable}`
 }
 
 export function localNumber(val) {
@@ -305,10 +305,10 @@ export const setThemeColor = (theme) => document.documentElement.style.setProper
 export const Big = (number) => new BigNumber(number)
 
 export const urls = {
-  showTransaction: (tx) => `https://ftmscan.com/tx/${tx}/`,
-  showAddress: (address) => `https://www.ftmscan.com/address/${address}/`,
-  showToken: (address) => `https://www.ftmscan.com/token/${address}/`,
-  showBlock: (block) => `https://ftmscan.com/block/${block}/`,
+  showTransaction: (tx) => `https://snowtrace.io/tx/${tx}/`,
+  showAddress: (address) => `https://www.snowtrace.io/address/${address}/`,
+  showToken: (address) => `https://www.snowtrace.io/token/${address}/`,
+  showBlock: (block) => `https://snowtrace.io/block/${block}/`,
 }
 
 export const formatTime = (unix) => {

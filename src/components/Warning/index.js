@@ -42,14 +42,14 @@ export default function Warning({ type, show, setShow, address }) {
         tokens that claim to represent projects that do not have a token.
       </Text>
       <Text fontWeight={500} lineHeight={'145.23%'} mt={'10px'}>
-        Similar to FtmScan, this site automatically tracks analytics for all ERC20 tokens independent of token
+        Similar to Snowtrace, this site automatically tracks analytics for all ERC20 tokens independent of token
         integrity. Please do your own research before interacting with any ERC20 token.
       </Text>
     </div>
   ) : (
     <Text fontWeight={500} lineHeight={'145.23%'} mt={'10px'}>
       Anyone can create and name any FRC20 token on Ethereum, including creating fake versions of existing tokens and
-      tokens that claim to represent projects that do not have a token. Similar to FtmScan, this site automatically
+      tokens that claim to represent projects that do not have a token. Similar to Snowtrace, this site automatically
       tracks analytics for all FRC20 tokens independent of token integrity. Please do your own research before
       interacting with any FRC20 token.
     </Text>
@@ -72,10 +72,10 @@ export default function Warning({ type, show, setShow, address }) {
                 fontWeight={500}
                 lineHeight={'145.23%'}
                 color={'#2172E5'}
-                href={'https://ftmscan.com/address/' + address}
+                href={'https://snowtrace.io/address/' + address}
                 target="_blank"
               >
-                View {type === 'token' ? 'token' : 'pair'} contract on FtmScan
+                View {type === 'token' ? 'token' : 'pair'} contract on Snowtrace
               </Link>
             </Hover>
             <RowBetween style={{ marginTop: '20px' }}>
@@ -92,7 +92,7 @@ export default function Warning({ type, show, setShow, address }) {
                 fontWeight={500}
                 lineHeight={'145.23%'}
                 color={'#2172E5'}
-                href={'https://ftmscan.com/address/' + address}
+                href={'https://snowtrace.io/address/' + address}
                 target="_blank"
               >
                 View {type === 'token' ? 'token' : 'pair'} contract on Explorer

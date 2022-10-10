@@ -202,10 +202,10 @@ export function useLatestBlocks() {
 export function useCurrentCurrency() {
   const [state, { update }] = useApplicationContext()
   const toggleCurrency = useCallback(() => {
-    if (state.currency === 'FTM') {
+    if (state.currency === 'AVAX') {
       update('USD')
     } else {
-      update('FTM')
+      update('AVAX')
     }
   }, [state, update])
   return [state[CURRENCY], toggleCurrency]

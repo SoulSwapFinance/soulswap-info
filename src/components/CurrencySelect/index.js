@@ -46,7 +46,7 @@ const CurrencySelect = () => {
 
   const getOther = () => {
     if (currency === 'USD') {
-      return 'FTM'
+      return 'AVAX'
     } else {
       return 'USD'
     }

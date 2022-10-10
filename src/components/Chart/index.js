@@ -63,8 +63,8 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={currencyUnit === 'FTM' ? 'Price (FTM/' + symbol + ')' : 'Price (USD/' + symbol + ')'}
-              dataKey={currencyUnit === 'FTM' ? 'ftmPerToken' : 'tokenPriceUSD'}
+              name={currencyUnit === 'AVAX' ? 'Price (AVAX/' + symbol + ')' : 'Price (USD/' + symbol + ')'}
+              dataKey={currencyUnit === 'AVAX' ? 'avaxPerToken' : 'tokenPriceUSD'}
               yAxisId={2}
               fill="var(--c-token)"
               opacity={'0.4'}
@@ -74,8 +74,8 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={currencyUnit === 'USD' ? 'Inverse (' + symbol + '/USD)' : 'Inverse (' + symbol + '/FTM)'}
-              dataKey={currencyUnit === 'USD' ? 'tokensPerUSD' : 'tokensPerFtm'}
+              name={currencyUnit === 'USD' ? 'Inverse (' + symbol + '/USD)' : 'Inverse (' + symbol + '/AVAX)'}
+              dataKey={currencyUnit === 'USD' ? 'tokensPerUSD' : 'tokensPerAvax'}
               yAxisId={3}
               fill="var(--c-token)"
               opacity={'0'}
@@ -153,7 +153,7 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
               strokeWidth={2}
               dot={false}
               type="monotone"
-              name={'Total Liquidity' + (currencyUnit === 'USD' ? ' (USD)' : ' (FTM)')}
+              name={'Total Liquidity' + (currencyUnit === 'USD' ? ' (USD)' : ' (AVAX)')}
               dataKey={currencyUnit === 'USD' ? 'usdLiquidity' : 'ethLiquidity'}
               yAxisId={0}
               fill="var(--c-token)"
@@ -162,8 +162,8 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
             />
             <Area
               type="monotone"
-              name={'Ftm Balance'}
-              dataKey={'ftmBalance'}
+              name={'Avax Balance'}
+              dataKey={'avaxBalance'}
               fill="var(--c-token)"
               opacity={'0'}
               stroke="var(--c-token)"
@@ -222,7 +222,7 @@ const Chart = ({ data, chartOption, currencyUnit, symbol }) => {
             />
             <Bar
               type="monotone"
-              name={'Volume' + (currencyUnit === 'USD' ? ' (USD)' : ' (FTM)')}
+              name={'Volume' + (currencyUnit === 'USD' ? ' (USD)' : ' (AVAX)')}
               dataKey={currencyUnit === 'USD' ? 'usdVolume' : 'ethVolume'}
               fill="var(--c-token)"
               opacity={'0.4'}

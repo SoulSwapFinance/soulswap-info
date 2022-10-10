@@ -30,7 +30,7 @@ import { useMedia } from 'react-use'
 import DoubleTokenLogo from '../components/DoubleLogo'
 import TokenLogo from '../components/TokenLogo'
 import { Hover } from '../components'
-import { useFtmPrice } from '../contexts/GlobalData'
+import { useNativePrice } from '../contexts/GlobalData'
 import Warning from '../components/Warning'
 import { usePathDismissed, useSavedPairs } from '../contexts/LocalStorage'
 
@@ -164,7 +164,7 @@ function PairPage({ pairAddress, history }) {
       : '-'
 
   // token data for usd
-  const [ethPrice] = useFtmPrice()
+  const [ethPrice] = useNativePrice()
   const token0USD =
     token0?.derivedETH && ethPrice ? formattedNum(parseFloat(token0.derivedETH) * parseFloat(ethPrice), true) : ''
 
@@ -204,7 +204,7 @@ function PairPage({ pairAddress, history }) {
             <TYPE.light style={{ textAlign: 'center' }}>
               {BLOCKED_WARNINGS[pairAddress] ?? `This pair is not supported.`}
             </TYPE.light>
-            <Link external={true} href={'https://ftmscan.com/address/' + pairAddress}>{`More About ${shortenAddress(
+            <Link external={true} href={'https://snowtrace.io/address/' + pairAddress}>{`More About ${shortenAddress(
               pairAddress
             )}`}</Link>
           </AutoColumn>
@@ -501,7 +501,7 @@ function PairPage({ pairAddress, history }) {
                     </AutoRow>
                   </Column>
                   <ButtonLight color={backgroundColor}>
-                    <Link color={backgroundColor} external href={'https://ftmscan.com/address/' + pairAddress}>
+                    <Link color={backgroundColor} external href={'https://snowtrace.io/address/' + pairAddress}>
                       View on Explorer ↗
                     </Link>
                   </ButtonLight>

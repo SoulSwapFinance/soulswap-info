@@ -41,10 +41,10 @@ function formatPricesForEarlyTimestamps(position): Position {
       position.token1PriceUSD = 1
     }
     // WETH price
-    if (position.pair?.token0.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
+    if (position.pair?.token0.id === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7') {
       position.token0PriceUSD = 203
     }
-    if (position.pair?.token1.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
+    if (position.pair?.token1.id === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7') {
       position.token1PriceUSD = 203
     }
   }
@@ -163,9 +163,9 @@ export function getMetricsForPositionWindow(positionT0: Position, positionT1: Po
  * @param startDateTimestamp // day to start tracking at
  * @param currentPairData // current stat of the pair
  * @param pairSnapshots // history of entries and exits for lp on this pair
- * @param currentFTMPrice // current price of eth used for usd conversions
+ * @param currentAVAXPrice // current price of eth used for usd conversions
  */
-export async function getHistoricalPairReturns(startDateTimestamp, currentPairData, pairSnapshots, currentFTMPrice) {
+export async function getHistoricalPairReturns(startDateTimestamp, currentPairData, pairSnapshots, currentAVAXPrice) {
   // catch case where data not puplated yet
   if (!currentPairData.timestamp) {
     return []
@@ -226,8 +226,8 @@ export async function getHistoricalPairReturns(startDateTimestamp, currentPairDa
         reserve0: currentPairData.reserve0,
         reserve1: currentPairData.reserve1,
         reserveUSD: currentPairData.reserveUSD,
-        token0PriceUSD: currentPairData.token0.derivedETH * currentFTMPrice,
-        token1PriceUSD: currentPairData.token1.derivedETH * currentFTMPrice,
+        token0PriceUSD: currentPairData.token0.derivedETH * currentAVAXPrice,
+        token1PriceUSD: currentPairData.token1.derivedETH * currentAVAXPrice,
       }
     }
 

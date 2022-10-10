@@ -14,7 +14,7 @@ import {
   GLOBAL_DATA,
   GLOBAL_TXNS,
   GLOBAL_CHART,
-  FTM_PRICE,
+  NATIVE_PRICE,
   ALL_PAIRS,
   ALL_TOKENS,
   TOP_LPS_PER_PAIRS,
@@ -25,8 +25,8 @@ import { useTokenChartDataCombined } from './TokenData'
 const UPDATE = 'UPDATE'
 const UPDATE_TXNS = 'UPDATE_TXNS'
 const UPDATE_CHART = 'UPDATE_CHART'
-const UPDATE_FTM_PRICE = 'UPDATE_FTM_PRICE'
-const FTM_PRICE_KEY = 'FTM_PRICE_KEY'
+const UPDATE_NATIVE_PRICE = 'UPDATE_NATIVE_PRICE'
+const NATIVE_PRICE_KEY = 'NATIVE_PRICE_KEY'
 const UPDATE_ALL_PAIRS_IN_UNISWAP = 'UPDAUPDATE_ALL_PAIRS_IN_UNISWAPTE_TOP_PAIRS'
 const UPDATE_ALL_TOKENS_IN_UNISWAP = 'UPDATE_ALL_TOKENS_IN_UNISWAP'
 const UPDATE_TOP_LPS = 'UPDATE_TOP_LPS'
@@ -69,10 +69,10 @@ function reducer(state, { type, payload }) {
         },
       }
     }
-    case UPDATE_FTM_PRICE: {
+    case UPDATE_NATIVE_PRICE: {
       const { ethPrice, oneDayPrice, ethPriceChange } = payload
       return {
-        [FTM_PRICE_KEY]: ethPrice,
+        [NATIVE_PRICE_KEY]: ethPrice,
         oneDayPrice,
         ethPriceChange,
       }
@@ -137,9 +137,9 @@ export default function Provider({ children }) {
     })
   }, [])
 
-  const updateFtmPrice = useCallback((ethPrice, oneDayPrice, ethPriceChange) => {
+  const updateNativePrice = useCallback((ethPrice, oneDayPrice, ethPriceChange) => {
     dispatch({
-      type: UPDATE_FTM_PRICE,
+      type: UPDATE_NATIVE_PRICE,
       payload: {
         ethPrice,
         oneDayPrice,
@@ -183,7 +183,7 @@ export default function Provider({ children }) {
             update,
             updateTransactions,
             updateChart,
-            updateFtmPrice,
+            updateNativePrice,
             updateTopLps,
             updateAllPairsInUniswap,
             updateAllTokensInUniswap,
@@ -195,7 +195,7 @@ export default function Provider({ children }) {
           updateTransactions,
           updateTopLps,
           updateChart,
-          updateFtmPrice,
+          updateNativePrice,
           updateAllPairsInUniswap,
           updateAllTokensInUniswap,
         ]
@@ -241,44 +241,44 @@ async function getGlobalData(ethPrice, oldethPrice) {
       query: GLOBAL_DATA(),
       fetchPolicy: 'cache-first',
     })
-    data = result.data.uniswapFactories[0]
+    data = result.data.factories[0]
 
     // fetch the historical data
     let oneDayResult = await client.query({
       query: GLOBAL_DATA(oneDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    oneDayData = oneDayResult.data.uniswapFactories[0]
+    oneDayData = oneDayResult.data.factories[0]
 
     let twoDayResult = await client.query({
       query: GLOBAL_DATA(twoDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    twoDayData = twoDayResult.data.uniswapFactories[0]
+    twoDayData = twoDayResult.data.factories[0]
 
     let oneWeekResult = await client.query({
       query: GLOBAL_DATA(oneWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const oneWeekData = oneWeekResult.data.uniswapFactories[0]
+    const oneWeekData = oneWeekResult.data.factories[0]
 
     let twoWeekResult = await client.query({
       query: GLOBAL_DATA(twoWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    let twoWeekData = twoWeekResult.data.uniswapFactories[0]
+    let twoWeekData = twoWeekResult.data.factories[0]
 
     if (data && oneDayData && twoDayData && twoWeekData) {
       let [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
-        data.totalVolumeUSD,
-        oneDayData.totalVolumeUSD,
-        twoDayData.totalVolumeUSD
+        data.volumeUSD,
+        oneDayData.volumeUSD,
+        twoDayData.volumeUSD
       )
 
       const [oneWeekVolume, weeklyVolumeChange] = get2DayPercentChange(
-        data.totalVolumeUSD,
-        oneWeekData.totalVolumeUSD,
-        twoWeekData.totalVolumeUSD
+        data.volumeUSD,
+        oneWeekData.volumeUSD,
+        twoWeekData.volumeUSD
       )
 
       const [oneDayTxns, txnChange] = get2DayPercentChange(
@@ -336,8 +336,8 @@ const getChartData = async (oldestDateToFetch, offsetData) => {
         fetchPolicy: 'cache-first',
       })
       skip += 1000
-      data = data.concat(result.data.uniswapDayDatas)
-      if (result.data.uniswapDayDatas.length < 1000) {
+      data = data.concat(result.data.dayDatas)
+      if (result.data.dayDatas.length < 1000) {
         allFound = true
       }
     }
@@ -472,11 +472,11 @@ const getethPrice = async () => {
   try {
     let oneDayBlock = await getBlockFromTimestamp(utcOneDayBack)
     let result = await client.query({
-      query: FTM_PRICE(),
+      query: NATIVE_PRICE(),
       fetchPolicy: 'cache-first',
     })
     let resultOneDay = await client.query({
-      query: FTM_PRICE(oneDayBlock),
+      query: NATIVE_PRICE(oneDayBlock),
       fetchPolicy: 'cache-first',
     })
     const currentPrice = result?.data?.bundles[0]?.ethPrice
@@ -555,7 +555,7 @@ async function getAllTokensOnUniswap() {
  */
 export function useGlobalData() {
   const [state, { update, updateAllPairsInUniswap, updateAllTokensInUniswap }] = useGlobalDataContext()
-  const [ethPrice, oldethPrice] = useFtmPrice()
+  const [ethPrice, oldethPrice] = useNativePrice()
 
   const data = state?.globalData
 
@@ -639,19 +639,19 @@ export function useGlobalTransactions() {
   return transactions
 }
 
-export function useFtmPrice() {
-  const [state, { updateFtmPrice }] = useGlobalDataContext()
-  const ethPrice = state?.[FTM_PRICE_KEY]
+export function useNativePrice() {
+  const [state, { updateNativePrice }] = useGlobalDataContext()
+  const ethPrice = state?.[NATIVE_PRICE_KEY]
   const ethPriceOld = state?.['oneDayPrice']
   useEffect(() => {
     async function checkForethPrice() {
       if (!ethPrice) {
         let [newPrice, oneDayPrice, priceChange] = await getethPrice()
-        updateFtmPrice(newPrice, oneDayPrice, priceChange)
+        updateNativePrice(newPrice, oneDayPrice, priceChange)
       }
     }
     checkForethPrice()
-  }, [ethPrice, updateFtmPrice])
+  }, [ethPrice, updateNativePrice])
 
   return [ethPrice, ethPriceOld]
 }
