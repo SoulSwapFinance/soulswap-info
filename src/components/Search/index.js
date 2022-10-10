@@ -144,8 +144,8 @@ const Gray = styled.span`
   color: #888d9b;
 `
 
-const Blue = styled.span`
-  color: #2172e5;
+const Red = styled.span`
+  color: #E74042;
   :hover {
     cursor: pointer;
   }
@@ -167,7 +167,7 @@ export const Search = ({ small = false }) => {
   useTokenData(value)
   usePairData(value)
 
-  const below700 = useMedia('(max-width: 700px)')
+  // const below700 = useMedia('(max-width: 700px)')
   const below470 = useMedia('(max-width: 470px)')
   const below410 = useMedia('(max-width: 410px)')
 
@@ -433,9 +433,7 @@ export const Search = ({ small = false }) => {
               ? 'Search...'
               : below470
               ? 'Search SoulSwap...'
-              : below700
-              ? 'Search pairs and tokens...'
-              : 'Search SoulSwap pairs and tokens...'
+              : 'Search pairs and tokens...'
           }
           value={value}
           onChange={(e) => {
@@ -461,7 +459,7 @@ export const Search = ({ small = false }) => {
           )}
           {filteredPairList &&
             filteredPairList.slice(0, pairsShown).map((pair) => {
-              //format incorrect names
+              // format incorrect names
               updateNameData(pair)
               return (
                 <BasicLink to={'/pair/' + pair.id} key={pair.id} onClick={onDismiss}>
@@ -477,13 +475,13 @@ export const Search = ({ small = false }) => {
           <Heading
             hide={!(Object.keys(filteredPairList).length > 3 && Object.keys(filteredPairList).length >= pairsShown)}
           >
-            <Blue
+            <Red
               onClick={() => {
                 setPairsShown(pairsShown + 5)
               }}
             >
               See more...
-            </Blue>
+            </Red>
           </Heading>
         </div>
         <Heading>
@@ -514,13 +512,13 @@ export const Search = ({ small = false }) => {
           <Heading
             hide={!(Object.keys(filteredTokenList).length > 3 && Object.keys(filteredTokenList).length >= tokensShown)}
           >
-            <Blue
+            <Red
               onClick={() => {
                 setTokensShown(tokensShown + 5)
               }}
             >
               See more...
-            </Blue>
+            </Red>
           </Heading>
         </div>
       </Menu>

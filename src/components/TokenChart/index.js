@@ -13,7 +13,7 @@ import DropdownSelect from '../DropdownSelect'
 import CandleStickChart from '../CandleChart'
 import LocalLoader from '../LocalLoader'
 import { AutoColumn } from '../Column'
-import { Activity } from 'react-feather'
+// import { Activity } from 'react-feather'
 import { useDarkModeManager } from '../../contexts/LocalStorage'
 
 const ChartWrapper = styled.div`
@@ -66,10 +66,12 @@ const TokenChart = ({ address, color, base }) => {
   // hourly and daily price data based on the current time window
   const hourlyWeek = useTokenPriceData(address, timeframeOptions.WEEK, 3600)
   const hourlyMonth = useTokenPriceData(address, timeframeOptions.MONTH, 3600)
-  const hourlyAll = useTokenPriceData(address, timeframeOptions.ALL_TIME, 3600)
+  const hourly3M = useTokenPriceData(address, timeframeOptions.THREE_MONTHS, 3600)
+  // const hourlyAll = useTokenPriceData(address, timeframeOptions.ALL_TIME, 3600)
   const dailyWeek = useTokenPriceData(address, timeframeOptions.WEEK, 86400)
   const dailyMonth = useTokenPriceData(address, timeframeOptions.MONTH, 86400)
-  const dailyAll = useTokenPriceData(address, timeframeOptions.ALL_TIME, 86400)
+  const daily3M = useTokenPriceData(address, timeframeOptions.THREE_MONTHS, 86400)
+  // const dailyAll = useTokenPriceData(address, timeframeOptions.ALL_TIME, 86400)
 
   const priceData =
     timeWindow === timeframeOptions.MONTH
@@ -84,8 +86,8 @@ const TokenChart = ({ address, color, base }) => {
         : hourlyWeek
       : // all time selected
       frequency === DATA_FREQUENCY.DAY
-      ? dailyAll
-      : hourlyAll
+      ? daily3M
+      : hourly3M
 
   // switch to hourly data when switched to week window
   useEffect(() => {
@@ -148,28 +150,28 @@ const TokenChart = ({ address, color, base }) => {
         >
           <AutoColumn gap="8px">
             <RowFixed>
-              <OptionButton
+              {/* <OptionButton
                 active={chartFilter === CHART_VIEW.LIQUIDITY}
                 onClick={() => setChartFilter(CHART_VIEW.LIQUIDITY)}
                 style={{ marginRight: '6px' }}
               >
                 Liquidity
-              </OptionButton>
-              <OptionButton
+              </OptionButton> */}
+              {/* <OptionButton
                 active={chartFilter === CHART_VIEW.VOLUME}
                 onClick={() => setChartFilter(CHART_VIEW.VOLUME)}
                 style={{ marginRight: '6px' }}
               >
                 Volume
-              </OptionButton>
-              <OptionButton
+              </OptionButton> */}
+              {/* <OptionButton
                 active={chartFilter === CHART_VIEW.PRICE}
                 onClick={() => {
                   setChartFilter(CHART_VIEW.PRICE)
                 }}
               >
                 Price
-              </OptionButton>
+              </OptionButton> */}
             </RowFixed>
             {chartFilter === CHART_VIEW.PRICE && (
               <AutoRow gap="4px">
@@ -188,12 +190,12 @@ const TokenChart = ({ address, color, base }) => {
                 >
                   H
                 </PriceOption>
-                <PriceOption
+                {/* <PriceOption
                   active={frequency === DATA_FREQUENCY.LINE}
                   onClick={() => setFrequency(DATA_FREQUENCY.LINE)}
                 >
                   <Activity size={14} />
-                </PriceOption>
+                </PriceOption> */}
               </AutoRow>
             )}
           </AutoColumn>
@@ -211,10 +213,10 @@ const TokenChart = ({ address, color, base }) => {
               1M
             </OptionButton>
             <OptionButton
-              active={timeWindow === timeframeOptions.ALL_TIME}
-              onClick={() => setTimeWindow(timeframeOptions.ALL_TIME)}
+              active={timeWindow === timeframeOptions.THREE_MONTHS}
+              onClick={() => setTimeWindow(timeframeOptions.THREE_MONTHS)}
             >
-              All
+              3M
             </OptionButton>
           </AutoRow>
         </RowBetween>

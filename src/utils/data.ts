@@ -16,16 +16,24 @@ interface BasicData {
 // keys are lowercase token addresses <--------
 const TOKEN_OVERRIDES: { [address: string]: { name: string; symbol: string } } = {
   '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7': {
-    name: 'Avalanche (Wrapped)',
+    name: 'Avalanche',
     symbol: 'AVAX',
   },
   '0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab': {
-    name: 'Ether (Wrapped)',
+    name: 'Wrapped Ethereum',
     symbol: 'ETH',
   },
   '0x11d6dd25c1695764e64f439e32cc7746f3945543': {
     name: 'Soul Power',
     symbol: 'SOUL',
+  },
+  '0xd586e7f844cea2f87f50152665bcbc2c279d8d70': {
+    name: 'Dai Stablecoin',
+    symbol: 'DAI',
+  },
+  '0x50b7545627a5162f82a992c33b87adc75187b218': {
+    name: 'Wrapped Bitcoin',
+    symbol: 'BTC',
   },
 }
 

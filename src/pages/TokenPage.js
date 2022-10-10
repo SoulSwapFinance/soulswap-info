@@ -317,7 +317,7 @@ function TokenPage({ address, history }) {
                 <Panel>
                   <AutoColumn gap="20px">
                     <RowBetween>
-                      <TYPE.main>Volume (24H)</TYPE.main>
+                      <TYPE.main>Volume</TYPE.main>
                       <div />
                     </RowBetween>
                     <RowBetween align="flex-end">
@@ -332,7 +332,7 @@ function TokenPage({ address, history }) {
                 <Panel>
                   <AutoColumn gap="20px">
                     <RowBetween>
-                      <TYPE.main>Transactions (24H)</TYPE.main>
+                      <TYPE.main>Transactions</TYPE.main>
                       <div />
                     </RowBetween>
                     <RowBetween align="flex-end">

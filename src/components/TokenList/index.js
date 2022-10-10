@@ -3,7 +3,6 @@ import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-
 import { Box, Flex, Text } from 'rebass'
 import TokenLogo from '../TokenLogo'
 import { CustomLink } from '../Link'
@@ -194,18 +193,16 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
             </CustomLink>
           </Row>
         </DataText>
-        {!below680 && (
+        {!below1080 && (
           <DataText area="symbol" color="text" fontWeight="500">
             <FormattedName text={item.symbol} maxCharacters={5} />
           </DataText>
         )}
         <DataText area="liq">{formattedNum(item.totalLiquidityUSD, true)}</DataText>
+        {!below680 && (
         <DataText area="vol">{formattedNum(item.oneDayVolumeUSD, true)}</DataText>
-        {!below1080 && (
-          <DataText area="price" color="text" fontWeight="500">
-            {formattedNum(item.priceUSD, true)}
-          </DataText>
         )}
+        <DataText area="price" color="text" fontWeight="500">{formattedNum(item.priceUSD, true)}</DataText>
         {!below1080 && <DataText area="change">{formattedPercent(item.priceChangeUSD)}</DataText>}
       </DashGrid>
     )
@@ -224,10 +221,10 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               setSortDirection(sortedColumn !== SORT_FIELD.NAME ? true : !sortDirection)
             }}
           >
-            {below680 ? 'Symbol' : 'Name'} {sortedColumn === SORT_FIELD.NAME ? (!sortDirection ? '↑' : '↓') : ''}
+            {below680 ? 'Tokens' : 'Token Name'} {sortedColumn === SORT_FIELD.NAME ? (!sortDirection ? '↑' : '↓') : ''}
           </ClickableText>
         </Flex>
-        {!below680 && (
+        {!below1080 && (
           <Flex alignItems="center">
             <ClickableText
               area="symbol"
@@ -252,6 +249,7 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
             Liquidity {sortedColumn === SORT_FIELD.LIQ ? (!sortDirection ? '↑' : '↓') : ''}
           </ClickableText>
         </Flex>
+        {!below680 && (
         <Flex alignItems="center">
           <ClickableText
             area="vol"
@@ -262,11 +260,11 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               )
             }}
           >
-            Volume (24H)
+            Volume
             {sortedColumn === (useTracked ? SORT_FIELD.VOL_UT : SORT_FIELD.VOL) ? (!sortDirection ? '↑' : '↓') : ''}
           </ClickableText>
         </Flex>
-        {!below1080 && (
+        )}
           <Flex alignItems="center">
             <ClickableText
               area="price"
@@ -278,7 +276,6 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
               Price {sortedColumn === SORT_FIELD.PRICE ? (!sortDirection ? '↑' : '↓') : ''}
             </ClickableText>
           </Flex>
-        )}
         {!below1080 && (
           <Flex alignItems="center">
             <ClickableText
@@ -288,7 +285,7 @@ function TopTokenList({ tokens, itemMax = 10, useTracked = false }) {
                 setSortDirection(sortedColumn !== SORT_FIELD.CHANGE ? true : !sortDirection)
               }}
             >
-              Price Change (24H)
+              Price Δ
               {sortedColumn === SORT_FIELD.CHANGE ? (!sortDirection ? '↑' : '↓') : ''}
             </ClickableText>
           </Flex>

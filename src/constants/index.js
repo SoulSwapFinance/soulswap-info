@@ -5,7 +5,7 @@ export const BUNDLE_ID = '1'
 export const timeframeOptions = {
   WEEK: '1 week',
   MONTH: '1 month',
-  // THREE_MONTHS: '3 months',
+  THREE_MONTHS: '3 months',
   // YEAR: '1 year',
   HALF_YEAR: '6 months',
   ALL_TIME: 'All time',
@@ -13,7 +13,8 @@ export const timeframeOptions = {
 
 // token list urls to fetch tokens from - use for warnings on tokens and pairs
 // TODO: Looks incorrect?
-export const SUPPORTED_LIST_URLS__NO_ENS = ['https://www.coingecko.com/tokens_list/uniswap/defi_100/v_0_0_0.json']
+export const SUPPORTED_LIST_URLS__NO_ENS = ['https://raw.githubusercontent.com/SoulSwapFinance/default-token-list/master/tokens/avalanche.json']
+// export const SUPPORTED_LIST_URLS__NO_ENS = ['https://www.coingecko.com/tokens_list/uniswap/defi_100/v_0_0_0.json']
 
 // hide from overview list
 export const TOKEN_BLACKLIST = []

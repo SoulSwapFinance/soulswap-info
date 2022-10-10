@@ -285,7 +285,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
         style={{ height: 'fit-content', padding: '0 1.125rem 1rem 1.125rem' }}
       >
         <Flex alignItems="center" justifyContent="flexStart">
-          <TYPE.main area="name">Name</TYPE.main>
+          <TYPE.main area="name">Pairs</TYPE.main>
         </Flex>
         <Flex alignItems="center" justifyContent="flexEnd">
           <ClickableText
@@ -306,7 +306,7 @@ function PairList({ pairs, color, disbaleLinks, maxItems = 10, useTracked = fals
               setSortDirection(sortedColumn !== SORT_FIELD.VOL ? true : !sortDirection)
             }}
           >
-            Volume (24H)
+            Volume
             {sortedColumn === SORT_FIELD.VOL ? (!sortDirection ? '↑' : '↓') : ''}
           </ClickableText>
         </Flex>
