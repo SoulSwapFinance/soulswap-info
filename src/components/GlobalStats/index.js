@@ -5,7 +5,7 @@ import { useMedia } from 'react-use'
 import { useGlobalData, useNativePrice } from '../../contexts/GlobalData'
 import { formattedNum, localNumber } from '../../utils'
 
-import UniPrice from '../UniPrice'
+import NativePrice from '../NativePrice'
 import { TYPE } from '../../Theme'
 
 const Header = styled.div`
@@ -48,7 +48,7 @@ export default function GlobalStats() {
               style={{ position: 'relative' }}
             >
               AVAX Price: <Medium>{formattednativePrice}</Medium>
-              {showPriceCard && <UniPrice />}
+              {showPriceCard && <NativePrice />}
             </TYPE.main>
           )}
 

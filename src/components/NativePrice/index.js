@@ -23,7 +23,7 @@ function formatPercent(rawPercent) {
   } else return parseFloat(rawPercent * 100).toFixed(0) + '%'
 }
 
-export default function UniPrice() {
+export default function NativePrice() {
   const daiPair = usePairData('0x864384a54ea644852603778c0C200eF2D6F2Ac2f') // 11 SEP
   const usdcPair = usePairData('0x160653F02b6597E7Db00BA8cA826cf43D2f39556') // 11 SEP
 

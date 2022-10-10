@@ -289,8 +289,8 @@ const getTopTokens = async (ethPrice, ethPriceOld) => {
             twoDayHistory?.txCount ?? 0
           )
 
-          const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH
-          const oldLiquidityUSD = oneDayHistory?.totalLiquidity * ethPriceOld * oneDayHistory?.derivedETH
+          const currentLiquidityUSD = data?.liquidity * ethPrice * data?.derivedETH
+          const oldLiquidityUSD = oneDayHistory?.liquidity * ethPriceOld * oneDayHistory?.derivedETH
 
           // percent changes
           const priceChangeUSD = getPercentChange(
