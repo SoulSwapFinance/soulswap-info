@@ -71,7 +71,7 @@ export default function TokenLogo({ address, header = false, size = '24px', ...r
     )
   }
 
-  const path = `https://raw.githubusercontent.com/soulswapfinance/assets/analytics/blockchains/fantom/assets/${isAddress(
+  const path = `https://raw.githubusercontent.com/soulswapfinance/assets/master/blockchains/avalanche/assets/${isAddress(
     address
   )}/logo.png`
 

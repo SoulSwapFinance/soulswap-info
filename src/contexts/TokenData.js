@@ -412,7 +412,7 @@ const getTokenData = async (address, ethPrice, ethPriceOld) => {
       parseFloat(oneDayData?.derivedETH ?? 0) * ethPriceOld
     )
 
-    const currentLiquidityUSD = data?.totalLiquidity * ethPrice * data?.derivedETH
+    const currentLiquidityUSD = data?.liquidityUSD * ethPrice * data?.derivedETH
     const oldLiquidityUSD = oneDayData?.totalLiquidity * ethPriceOld * oneDayData?.derivedETH
 
     // set data

@@ -5,9 +5,8 @@ import dayjs from 'dayjs'
 import { getShareValueOverTime } from '.'
 
 export const priceOverrides = [
-'0x04068da6c83afcfa0e13ba15a6696662335d5b75', // USDC
-'0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e', // DAI
-'0xad84341756bf337f5a0164515b1f6f993d194e1f', // FUSD
+'0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e', // USDC
+'0xd586e7f844cea2f87f50152665bcbc2c279d8d70', // DAI
 ]
 
 interface ReturnMetrics {
@@ -203,7 +202,7 @@ export async function getHistoricalPairReturns(startDateTimestamp, currentPairDa
   for (const index in dayTimestamps) {
     // get the bounds on the day
     const dayTimestamp = dayTimestamps[index]
-    const timestampCeiling = dayTimestamp + 86400
+    const timestampCeiling = dayTimestamp + 86_400
 
     // for each change in position value that day, create a window and update
     const dailyChanges = pairSnapshots.filter((snapshot) => {

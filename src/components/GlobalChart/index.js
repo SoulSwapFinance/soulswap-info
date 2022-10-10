@@ -30,7 +30,7 @@ const GlobalChart = ({ display }) => {
   // global historical data
   const [dailyData, weeklyData] = useGlobalChartData()
   const {
-    totalLiquidityUSD,
+    liquidityUSD,
     oneDayVolumeUSD,
     volumeChangeUSD,
     liquidityChangeUSD,
@@ -86,7 +86,7 @@ const GlobalChart = ({ display }) => {
         <ResponsiveContainer aspect={60 / 28} ref={ref}>
           <TradingViewChart
             data={dailyData}
-            base={totalLiquidityUSD}
+            base={liquidityUSD}
             baseChange={liquidityChangeUSD}
             title="Liquidity"
             field="totalLiquidityUSD"

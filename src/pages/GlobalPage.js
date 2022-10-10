@@ -49,7 +49,7 @@ function GlobalPage() {
   const allPairs = useAllPairData()
   const allTokens = useAllTokenData()
   const transactions = useGlobalTransactions()
-  const { totalLiquidityUSD, oneDayVolumeUSD, volumeChangeUSD, liquidityChangeUSD } = useGlobalData()
+  const { liquidityUSD, oneDayVolumeUSD, volumeChangeUSD, liquidityChangeUSD } = useGlobalData()
 
   // breakpoints
   const below800 = useMedia('(max-width: 800px)')
@@ -96,7 +96,7 @@ function GlobalPage() {
                       </RowBetween>
                       <RowBetween align="flex-end">
                         <TYPE.main fontSize={'1.5rem'} lineHeight={1} fontWeight={600}>
-                          {totalLiquidityUSD ? formattedNum(totalLiquidityUSD, true) : '-'}
+                          {liquidityUSD ? formattedNum(liquidityUSD, true) : '-'}
                         </TYPE.main>
                         <TYPE.main fontSize={12}>
                           {liquidityChangeUSD ? formattedPercent(liquidityChangeUSD) : '-'}

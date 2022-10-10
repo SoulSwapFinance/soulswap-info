@@ -24,8 +24,8 @@ function formatPercent(rawPercent) {
 }
 
 export default function NativePrice() {
-  const daiPair = usePairData('0x864384a54ea644852603778c0C200eF2D6F2Ac2f') // 11 SEP
-  const usdcPair = usePairData('0x160653F02b6597E7Db00BA8cA826cf43D2f39556') // 11 SEP
+  const daiPair = usePairData('0xEF1D48b24E87F8ccfF97f7C295B31B92E30F372B')
+  const usdcPair = usePairData('0x864384a54ea644852603778c0C200eF2D6F2Ac2f')
 
   const totalLiquidity = useMemo(() => {
     return daiPair && usdcPair
@@ -33,8 +33,8 @@ export default function NativePrice() {
       : 0
   }, [daiPair, usdcPair])
 
-  const daiPerEth = daiPair ? parseFloat(daiPair.token1Price).toFixed(2) : '-'
-  const usdcPerEth = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-'
+  const daiPerEth = daiPair ? parseFloat(daiPair.token1Price).toFixed(2) : '-' // token1 == DAI 
+  const usdcPerEth = usdcPair ? parseFloat(usdcPair.token1Price).toFixed(2) : '-' // token1 == USDC
 
   return (
     <PriceCard>

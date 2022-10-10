@@ -27,8 +27,8 @@ const UPDATE_TXNS = 'UPDATE_TXNS'
 const UPDATE_CHART = 'UPDATE_CHART'
 const UPDATE_NATIVE_PRICE = 'UPDATE_NATIVE_PRICE'
 const NATIVE_PRICE_KEY = 'NATIVE_PRICE_KEY'
-const UPDATE_ALL_PAIRS_IN_UNISWAP = 'UPDAUPDATE_ALL_PAIRS_IN_UNISWAPTE_TOP_PAIRS'
-const UPDATE_ALL_TOKENS_IN_UNISWAP = 'UPDATE_ALL_TOKENS_IN_UNISWAP'
+const UPDATE_ALL_PAIRS = 'UPDATE_ALL_PAIRS'
+const UPDATE_ALL_TOKENS = 'UPDATE_ALL_TOKENS'
 const UPDATE_TOP_LPS = 'UPDATE_TOP_LPS'
 
 const offsetVolumes = []
@@ -78,7 +78,7 @@ function reducer(state, { type, payload }) {
       }
     }
 
-    case UPDATE_ALL_PAIRS_IN_UNISWAP: {
+    case UPDATE_ALL_PAIRS: {
       const { allPairs } = payload
       return {
         ...state,
@@ -86,7 +86,7 @@ function reducer(state, { type, payload }) {
       }
     }
 
-    case UPDATE_ALL_TOKENS_IN_UNISWAP: {
+    case UPDATE_ALL_TOKENS: {
       const { allTokens } = payload
       return {
         ...state,
@@ -150,7 +150,7 @@ export default function Provider({ children }) {
 
   const updateAllPairsInUniswap = useCallback((allPairs) => {
     dispatch({
-      type: UPDATE_ALL_PAIRS_IN_UNISWAP,
+      type: UPDATE_ALL_PAIRS,
       payload: {
         allPairs,
       },
@@ -159,7 +159,7 @@ export default function Provider({ children }) {
 
   const updateAllTokensInUniswap = useCallback((allTokens) => {
     dispatch({
-      type: UPDATE_ALL_TOKENS_IN_UNISWAP,
+      type: UPDATE_ALL_TOKENS,
       payload: {
         allTokens,
       },
@@ -357,7 +357,7 @@ const getChartData = async (oldestDateToFetch, offsetData) => {
 
       // fill in empty days ( there will be no day datas if no trades made that day )
       let timestamp = data[0].date ? data[0].date : oldestDateToFetch
-      let latestLiquidityUSD = data[0].totalLiquidityUSD
+      let latestLiquidityUSD = data[0].liquidityUSD
       let latestDayDats = data[0].mostLiquidTokens
       let index = 1
       while (timestamp < utcEndTime.unix() - oneDay) {
@@ -372,7 +372,7 @@ const getChartData = async (oldestDateToFetch, offsetData) => {
             mostLiquidTokens: latestDayDats,
           })
         } else {
-          latestLiquidityUSD = dayIndexArray[index].totalLiquidityUSD
+          latestLiquidityUSD = dayIndexArray[index].liquidityUSD
           latestDayDats = dayIndexArray[index].mostLiquidTokens
           index = index + 1
         }

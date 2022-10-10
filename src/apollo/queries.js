@@ -397,7 +397,7 @@ export const GLOBAL_CHART = gql`
       id
       date
       volumeUSD
-      volumeUSD
+      volumeETH
       liquidityUSD
       liquidityETH
     }
