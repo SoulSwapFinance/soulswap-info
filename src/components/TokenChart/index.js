@@ -30,10 +30,10 @@ const PriceOption = styled(OptionButton)`
 `
 
 const CHART_VIEW = {
-  VOLUME: 'Volume',
-  LIQUIDITY: 'Liquidity',
+  // VOLUME: 'Volume',
+  // LIQUIDITY: 'Liquidity',
   PRICE: 'Price',
-  LINE_PRICE: 'Price (Line)',
+  // LINE_PRICE: 'Price (Line)',
 }
 
 const DATA_FREQUENCY = {
