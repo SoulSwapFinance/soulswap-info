@@ -41,12 +41,12 @@ function formatPricesForEarlyTimestamps(position): Position {
     if (priceOverrides.includes(position?.pair?.token1.id)) {
       position.token1PriceUSD = 1
     }
-    // WETH price
+    // WNATIVE (FTM) price
     if (position.pair?.token0.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
-      position.token0PriceUSD = 203
+      position.token0PriceUSD = 0.25
     }
     if (position.pair?.token1.id === '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83') {
-      position.token1PriceUSD = 203
+      position.token1PriceUSD = 0.25
     }
   }
   return position
