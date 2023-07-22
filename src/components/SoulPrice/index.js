@@ -23,7 +23,7 @@ function formatPercent(rawPercent) {
   } else return parseFloat(rawPercent * 100).toFixed(0) + '%'
 }
 
-export default function SoulPrice() {)
+export default function SoulPrice() {
   const usdcPair = usePairData('0xd1a432df5ee2df3f891f835854ffea072c273c65') 
   // FTM-axlUSDC
   const totalLiquidity = useMemo(() => {
