@@ -168,8 +168,8 @@
       "logoURI": "https://ftmscan.com/token/images/chainlink_32.png"
     },
     {
-      "name": "USD Coin",
-      "address": "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+      "name": "USD Coin (Axelar)",
+      "address": "0x1B6382DBDEa11d97f24495C9A90b7c88469134a4",
       "symbol": "USDC",
       "decimals": 6,
       "chainId": 250,

@@ -23,40 +23,30 @@ function formatPercent(rawPercent) {
   } else return parseFloat(rawPercent * 100).toFixed(0) + '%'
 }
 
-export default function SoulPrice() {
-  const daiPair = usePairData('0xF3d6E8Ecece8647B456d57375Ce0B51B8F0cD40b')
-  const usdcPair = usePairData('0x160653F02b6597E7Db00BA8cA826cf43D2f39556')
-  const fusdPair = usePairData('0x1AE16105a7d4bE7DFD9737FD13D9A50AEFed1437')
-
+export default function SoulPrice() {)
+  const usdcPair = usePairData('0xd1a432df5ee2df3f891f835854ffea072c273c65') 
+  // FTM-axlUSDC
   const totalLiquidity = useMemo(() => {
-    return daiPair && usdcPair && fusdPair
-      ? daiPair.trackedReserveUSD + usdcPair.trackedReserveUSD + fusdPair.trackedReserveUSD
+    return usdcPair
+      ? usdcPair.trackedReserveUSD
       : 0
-  }, [daiPair, usdcPair, fusdPair])
+  }, [usdcPair])
 
-  const daiPerFtm = daiPair ? parseFloat(daiPair.token1Price).toFixed(2) : '-'
-  const usdcPerFtm = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-'
-  const fusdPerFtm = fusdPair ? parseFloat(fusdPair.token1Price).toFixed(2) : '-'
+  // const daiPerFtm = daiPair ? parseFloat(daiPair.token1Price).toFixed(2) : '-'
+  const usdcPerFtm = usdcPair ? parseFloat(usdcPair.token0Price).toFixed(2) : '-' 
+    // (0) axlUSDC
+  // const fusdPerFtm = fusdPair ? parseFloat(fusdPair.token1Price).toFixed(2) : '-'
 
   return (
     <PriceCard>
       <AutoColumn gap="10px">
         <RowFixed>
-          <TYPE.main>DAI/FTM: {formattedNum(daiPerFtm, true)}</TYPE.main>
-          <TYPE.light style={{ marginLeft: '10px' }}>
-            {daiPair && totalLiquidity ? formatPercent(daiPair.trackedReserveUSD / totalLiquidity) : '-'}
-          </TYPE.light>
-        </RowFixed>
-        <RowFixed>
           <TYPE.main>USDC/FTM: {formattedNum(usdcPerFtm, true)}</TYPE.main>
           <TYPE.light style={{ marginLeft: '10px' }}>
-            {usdcPair && totalLiquidity ? formatPercent(usdcPair.trackedReserveUSD / totalLiquidity) : '-'}
-          </TYPE.light>
-        </RowFixed>
-        <RowFixed>
-          <TYPE.main>FUSD/FTM: {formattedNum(fusdPerFtm, true)}</TYPE.main>
-          <TYPE.light style={{ marginLeft: '10px' }}>
-            {fusdPair && totalLiquidity ? formatPercent(fusdPair.trackedReserveUSD / totalLiquidity) : '-'}
+            {usdcPair && totalLiquidity 
+              ? formatPercent(usdcPair.trackedReserveUSD / totalLiquidity) 
+              : '-'
+            }
           </TYPE.light>
         </RowFixed>
       </AutoColumn>

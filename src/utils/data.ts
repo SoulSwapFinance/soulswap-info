@@ -20,7 +20,7 @@ const TOKEN_OVERRIDES: { [address: string]: { name: string; symbol: string } } =
     symbol: 'FTM',
   },
   '0x74b23882a30290451a17c44f4f05243b6b58c76d': {
-    name: 'Ether (Wrapped)',
+    name: 'Ether (Multi)',
     symbol: 'ETH',
   },
   '0xe2fb177009ff39f52c0134e8007fa0e4baacbd07': {
